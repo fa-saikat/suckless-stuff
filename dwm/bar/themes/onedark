@@ -1,0 +1,17 @@
+#!/bin/bash
+
+# colors
+bg=#1f2227
+fg=#cfd7e7
+
+black=#282c33
+red=#e06b74
+green=#98c379
+yellow=#e5c07a
+blue=#62aeef
+magenta=#da91ce
+cyan=#55b6c2
+white=#abb2bf
+darkblue=#668ee3
+
+grey=#666666

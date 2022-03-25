@@ -1,0 +1,15 @@
+#!/bin/dash
+
+bg=#282828
+fg=#d4be98
+
+black=#928374
+red=#FB4934
+green=#B8BB24
+yellow=#FABD2F
+blue=#83A598
+magenta=#D3869B
+cyan=#8EC07C
+white=#EBDDB2
+
+grey=#666666

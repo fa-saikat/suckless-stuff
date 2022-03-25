@@ -1,0 +1,15 @@
+#!/bin/bash
+
+bg=#2e3440
+fg=#D8DEE9
+
+black=#2E3440
+red=#bf616a
+green=#a3be8c
+yellow=#ebcb8b
+blue=#81a1c1
+magenta=#b48ead
+cyan=#88c0d0
+white=#D8DEE9
+
+grey=#666666
