@@ -16,9 +16,13 @@ static const int sidepad            = 14;       /* horizontal padding of bar */
 static const int horizpadbar        = 86;       /* horizontal padding for statusbar */
 static const int vertpadbar         = 10;       /* vertical padding for statusbar */
 
-static const char *fonts[]          = { "JetbrainsMono nerd font: style=Bold: size=12",
-                                        "NotoSansMono Nerd Font : style=Bold: size=12" };
-static const char dmenu_font[]      = { "NotoSansMono Nerd Font : style=Bold: size=12" };
+static const char *fonts[] = {
+    "JetbrainsMono nerd font: style=Bold: size=11",
+    "NotoSansMono Nerd Font : style=Bold: size=11",
+};
+static const char dmenu_font[]= {
+    "NotoSansMono Nerd Font : style=Bold: size=10"
+};
 
 // Set theme
 // #include "themes/nord.h"
@@ -54,6 +58,7 @@ static Sp scratchpads[] = {
 /* tagging */
 /* static const char *tags[] = { " 1 ", " 2 ", " 3 ", " 4 ", " 5 ", " 6 ", " 7 ", " 8 ", " 9 " }; */
 static const char *tags[]              = { "  ","  ","  ","  ","  ","  " };
+static const char *defaulttagapps[] = { NULL, "alacritty", "chromium", "kate", "dolphin", "qbittorrent" };
 static const unsigned int ulinepad     = 5;	/* horizontal padding between the underline and tag */
 static const unsigned int ulinestroke  = 2;	/* thickness / height of the underline */
 static const unsigned int ulinevoffset = 0;	/* how far above the bottom of the bar the line should appear */
@@ -111,19 +116,20 @@ static const Layout layouts[] = {
 	/* symbol     arrange function */
 	{ 	" ﬿"    ,  tile 					} ,  /* first entry is default */
 	{ 	" "    ,  NULL 					} ,  /* no layout function means floating behavior */
-	{ 	" "    ,  spiral 					} ,
-	{ 	" "    ,  dwindle 				} ,
-	{ 	" H[]"   ,  deck 					} ,
-	{ 	" ﰧ"    ,  bstack 					} ,
-	{ 	" 﩮"   ,  bstackhoriz 			} ,
-	{ 	" 﩯"   ,  grid 					} ,
-	{ 	" ﱖ"    ,  gaplessgrid 			} ,
-	{ 	" 尿﩯" ,  nrowgrid 				} ,
-	{ 	" "    ,  horizgrid 				} ,
-	{ 	" 頻"   ,  centeredmaster 			} ,
-	{ 	" 恵"   ,  centeredfloatingmaster 	} ,
+	{ 	" ﳶ"    ,  bstack 					} ,
 	{ 	" [M]"   ,  monocle 				} ,
 	{ 	NULL    ,  NULL 					}
+
+	/* {" ﰧ",  bstackhoriz 			} , */
+	/* {" 恵",  centeredfloatingmaster 	} , */
+	/* {" 頻",  centeredmaster 			} , */
+	/* {" ",  deck 					} , */
+	/* {" 舘",  dwindle 				} , */
+	/* {" ﱖ",  gaplessgrid 			} , */
+	/* {" 﩯",  grid 					} , */
+	/* {" ﳼ",  horizgrid 				} , */
+	/* {" ",  nrowgrid 				} , */
+	/* {" ",  spiral 					} , */
 };
 
 /* key definitions */
@@ -151,6 +157,7 @@ static const char *calender[] = { "gsimplecal", NULL };
 static Key keys[] = {
 { MODKEY,                       XK_Return,        spawn,           { .v = termcmd } },
 { MODKEY,                       XK_q,             killclient,      {0} },
+{ MODKEY,                       XK_d,             spawndefault,    {0} },
 
 { MODKEY,                       XK_e,             spawn,           { .v = fmcmd } },
 { MODKEY,                       XK_p,             spawn,           { .v = dmenucmd } },
@@ -217,18 +224,19 @@ static Key keys[] = {
 
 { MODKEY|Mod1Mask,              XK_t,             setlayout,       { .v = &layouts[0]} },   /* Tile */
 { MODKEY|Mod1Mask,              XK_f,             setlayout,       { .v = &layouts[1]} },   /* Floating */
-//{ MODKEY|Mod1Mask,            XK_s,             setlayout,       { .v = &layouts[2]} },   /* Spiral */
-//{ MODKEY|Mod1Mask|ShiftMask,  XK_s,             setlayout,       { .v = &layouts[3]} },   /* Dwindle */
-//{ MODKEY|Mod1Mask,            XK_d,             setlayout,       { .v = &layouts[4]} },   /* Deck */
-{ MODKEY|Mod1Mask,              XK_b,             setlayout,       { .v = &layouts[5]} },   /* Bottomstack */
-//{ MODKEY|Mod1Mask|ShiftMask,  XK_b,             setlayout,       {.v = &layouts[6]} },    /* Bottomstack Horizontal */
-{ MODKEY|Mod1Mask,              XK_g,             setlayout,       { .v = &layouts[7]} },   /* Gird */
-//{ MODKEY|Mod1Mask|ShiftMask,  XK_g,             setlayout,       { .v = &layouts[8]} },   /* Gird Gapless*/
-//{ MODKEY|Mod1Mask,            XK_n,             setlayout,       { .v = &layouts[9]} },   /1* Gird Row *1/
-//{ MODKEY|Mod1Mask,            XK_h,             setlayout,       { .v = &layouts[10]} },  /1* Gird Horizontal *1/
-{ MODKEY|Mod1Mask,              XK_m,             setlayout,       { .v = &layouts[11]} },  /* Centeredmaster */
-//{ MODKEY|Mod1Mask|ShiftMask,  XK_m,             setlayout,       { .v = &layouts[12]} },  /* Centeredmaster Floating */
-//{ MODKEY|ControlMask,         XK_m,             setlayout,       { .v = &layouts[13]} },  /* Monocole */
+{ MODKEY|Mod1Mask,              XK_b,             setlayout,       { .v = &layouts[2]} },   /* Bottomstack */
+{ MODKEY|ControlMask,           XK_m,             setlayout,       { .v = &layouts[3]} },   /* Monocole */
+
+//{ MODKEY|Mod1Mask,  XK_,             setlayout,       { .v = &layouts[]} },   /* Bottomstack Horizontal */
+//{ MODKEY|Mod1Mask,  XK_,             setlayout,       { .v = &layouts[]} },   /* Centeredmaster */
+//{ MODKEY|Mod1Mask,  XK_,             setlayout,       { .v = &layouts[]} },   /* Centeredmaster Floating */
+//{ MODKEY|Mod1Mask,  XK_,             setlayout,       { .v = &layouts[]} },   /* Deck */
+//{ MODKEY|Mod1Mask,  XK_,             setlayout,       { .v = &layouts[]} },   /* Dwindle */
+//{ MODKEY|Mod1Mask,  XK_,             setlayout,       { .v = &layouts[]} },   /* Gird */
+//{ MODKEY|Mod1Mask,  XK_,             setlayout,       { .v = &layouts[]} },   /* Gird Gapless*/
+//{ MODKEY|Mod1Mask,  XK_,             setlayout,       { .v = &layouts[]} },   /* Gird Horizontal *1/
+//{ MODKEY|Mod1Mask,  XK_,             setlayout,       { .v = &layouts[]} },   /* Gird Row *1/
+//{ MODKEY|Mod1Mask,  XK_,             setlayout,       { .v = &layouts[]} },   /* Spiral */
 
 TAGKEYS ( XK_1,                 0 )
 TAGKEYS ( XK_2,                 1 )
