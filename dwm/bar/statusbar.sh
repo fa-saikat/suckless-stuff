@@ -11,8 +11,8 @@
 # Load colors
 # . $HOME/.local/src/dwm/bar/themes/gruv
 # . $HOME/.local/src/dwm/bar/themes/nord
-# . $HOME/.local/src/dwm/bar/themes/onedark
-. $HOME/.local/src/dwm/bar/themes/serenade
+. $HOME/.local/src/dwm/bar/themes/onedark
+# . $HOME/.local/src/dwm/bar/themes/serenade
 
 interval=0
 
@@ -36,7 +36,7 @@ BATTERY(){
 			if [ "$capacity" -gt 85 ]; then
 				echo -e "^c$fg^ ^c$green^ "
 			else
-				echo -e "^c$fg^ ^c$yellow^ "
+				echo -e "^c$fg^ ^c$red^ "
 			fi
 			;;
 	esac
@@ -66,7 +66,7 @@ VOLUME(){
 			elif [[ "$level" -lt 70 ]]; then
 				echo -e "^c$fg^墳"
 			else
-				echo -e "^c$fg^ "
+				echo -e "^c$fg^"
 			fi
 			;;
 		*)
@@ -83,13 +83,13 @@ WIFI(){
     case $status in
         enabled)
             if [ -n "$bssid" ]; then
-                echo -e "^c$fg^ "
+                echo -e "^c$fg^"
             else
-                echo -e "^c$red^ "
+                echo -e "^c$red^"
             fi
             ;;
         *)
-            echo -e "^c$grey^ "
+            echo -e "^c$grey^"
             ;;
     esac
 }
@@ -105,15 +105,23 @@ SCREEN(){
 	level="$(cat /sys/class/backlight/*/brightness)"
 
 	if [[ "$level" -le 50 ]]; then
-        echo -e "^c$fg^ "
+        echo -e "^c$fg^"
     elif [[ "$level" -le 120 ]]; then
-        echo -e "^c$fg^ "
+        echo -e "^c$fg^"
     else
-        echo -e "^c$fg^ "
+        echo -e "^c$fg^"
     fi
 }
 
 : '
+CAPS(){
+    status="$(cat /sys/class/leds/input3::capslock/brightness)"
+
+    if [ "$status" -eq 1 ]; then
+        echo -e -n "^c$red^\r"
+    fi
+}
+
 CPU() {
 	load=$(grep -o "^[^ ]*" /proc/loadavg)
 }
