@@ -4,17 +4,17 @@
 static const unsigned int borderpx  = 2;        /* border pixel of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const int swallowfloating    = 0;        /* 1 means swallow floating windows by default */
-static const unsigned int gappih    = 15;       /* horiz inner gap between windows */
-static const unsigned int gappiv    = 15;       /* vert inner gap between windows */
-static const unsigned int gappoh    = 15;       /* horiz outer gap between windows and screen edge */
-static const unsigned int gappov    = 15;       /* vert outer gap between windows and screen edge */
+static const unsigned int gappih    = 14;       /* horiz inner gap between windows */
+static const unsigned int gappiv    = 14;       /* vert inner gap between windows */
+static const unsigned int gappoh    = 14;       /* horiz outer gap between windows and screen edge */
+static const unsigned int gappov    = 14;       /* vert outer gap between windows and screen edge */
 static       int smartgaps          = 0;        /* 1 means no outer gap when there is only one window */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
 static const int vertpad            = 10;       /* vertical padding of bar */
 static const int sidepad            = 14;       /* horizontal padding of bar */
 static const int horizpadbar        = 86;       /* horizontal padding for statusbar */
-static const int vertpadbar         = 10;       /* vertical padding for statusbar */
+static const int vertpadbar         = 8;       /* vertical padding for statusbar */
 
 static const char *fonts[] = {
     "JetbrainsMono nerd font: style=Bold: size=11",
@@ -27,8 +27,8 @@ static const char dmenu_font[]= {
 // Set theme
 // #include "themes/nord.h"
 // #include "themes/gruv.h"
-// #include "themes/onedark.h"
-#include "themes/serenade.h"
+#include "themes/onedark.h"
+// #include "themes/serenade.h"
 
 static const char *const autostart[] = {
     "/home/saikat/.local/src/dwm/autostart.sh",  NULL,
@@ -43,7 +43,7 @@ typedef struct {
 const char *spcmd1[] = { "alacritty",  "-o",  "window.dimensions.rows=34",  "window.dimensions.columns=120",  "--class",  "spterm1" };
 const char *spcmd2[] = { "alacritty",  "-o",  "window.dimensions.rows=34",  "window.dimensions.columns=120",  "--class",  "spterm2" };
 const char *spcmd3[] = { "alacritty",  "-o",  "window.dimensions.rows=35",  "window.dimensions.columns=145",  "--class",  "spbtop",   "--hold",  "-e",  "btop" };
-const char *spcmd4[] = { "alacritty",  "-o",  "window.dimensions.rows=35",  "window.dimensions.columns=100",  "--class",  "spfile",   "--hold",  "-e",  "ranger" };
+const char *spcmd4[] = { "alacritty",  "-o",  "window.dimensions.rows=30",  "window.dimensions.columns=130",  "--class",  "spfile",   "--hold",  "-e",  "ranger" };
 const char *spcmd5[] = { "alacritty",  "-o",  "window.dimensions.rows=15",  "window.dimensions.columns=70",   "--class",  "sppulse",  "--hold",  "-e",  "pulsemixer" };
 
 static Sp scratchpads[] = {
@@ -84,7 +84,7 @@ static const Rule rules[] = {
     { "mpv",                            "gl",       NULL,                  0,          0,            1,           0,           0,          -1 },
     /* Terminals */
 	{ "Alacritty",                      NULL,       NULL,                  0,          0,            0,           1,           0,          -1 },
-	{ "kitty",                          NULL,       NULL,                  0,          0,            0,           1,           1,          -1 },
+	{ "kitty",                          NULL,       NULL,                  0,          0,            0,           1,           0,          -1 },
 	{ "st-256color",                    NULL,       NULL,                  0,          0,            0,           1,           0,          -1 },
 	{ "St",                             NULL,       NULL,                  0,          0,            0,           1,           0,          -1 },
     /* Meeting & remote control */
@@ -117,6 +117,8 @@ static const Layout layouts[] = {
 	{ 	" ﬿"    ,  tile 					} ,  /* first entry is default */
 	{ 	" "    ,  NULL 					} ,  /* no layout function means floating behavior */
 	{ 	" ﳶ"    ,  bstack 					} ,
+	{   " 頻",  centeredmaster 			} ,
+	{" 﩯",  grid 					} ,
 	{ 	" [M]"   ,  monocle 				} ,
 	{ 	NULL    ,  NULL 					}
 
@@ -225,7 +227,9 @@ static Key keys[] = {
 { MODKEY|Mod1Mask,              XK_t,             setlayout,       { .v = &layouts[0]} },   /* Tile */
 { MODKEY|Mod1Mask,              XK_f,             setlayout,       { .v = &layouts[1]} },   /* Floating */
 { MODKEY|Mod1Mask,              XK_b,             setlayout,       { .v = &layouts[2]} },   /* Bottomstack */
-{ MODKEY|ControlMask,           XK_m,             setlayout,       { .v = &layouts[3]} },   /* Monocole */
+{ MODKEY|Mod1Mask,              XK_c,             setlayout,       { .v = &layouts[3]} },   /* Bottomstack */
+{ MODKEY|Mod1Mask,              XK_g,             setlayout,       { .v = &layouts[4]} },   /* Bottomstack */
+{ MODKEY|ControlMask,           XK_m,             setlayout,       { .v = &layouts[5]} },   /* Monocole */
 
 //{ MODKEY|Mod1Mask,  XK_,             setlayout,       { .v = &layouts[]} },   /* Bottomstack Horizontal */
 //{ MODKEY|Mod1Mask,  XK_,             setlayout,       { .v = &layouts[]} },   /* Centeredmaster */

@@ -77,19 +77,27 @@ VOLUME(){
 
 WIFI(){
 	# status="$(cat /sys/class/net/wl*/operstate)"
+	statusEthernet="$(cat /sys/class/net/en*/operstate)"
 	status="$(nmcli radio wifi)"
 	bssid="$(iwgetid | cut -d \" -f2)"
 
-    case $status in
-        enabled)
-            if [ -n "$bssid" ]; then
-                echo -e "^c$fg^"
-            else
-                echo -e "^c$red^"
-            fi
+    case $statusEthernet in
+        up)
+            echo -e "^c$fg^"
             ;;
         *)
-            echo -e "^c$grey^"
+            case $status in
+                enabled)
+                    if [ -n "$bssid" ]; then
+                        echo -e "^c$fg^"
+                    else
+                        echo -e "^c$red^"
+                    fi
+                    ;;
+                *)
+                    echo -e "^c$grey^"
+                    ;;
+            esac
             ;;
     esac
 }
@@ -110,6 +118,15 @@ SCREEN(){
         echo -e "^c$fg^"
     else
         echo -e "^c$fg^"
+    fi
+}
+
+APPS(){
+    if [[ $(ps aux | grep -v grep | grep -i -e VSZ -e discord | sed -n 2p) ]]; then
+        echo -e "^c$fg^ﭮ   "
+    fi
+    if [[ -n $(ps aux | grep -v grep | grep -i -e VSZ -e qbittorrent | sed -n 2p) ]]; then
+        echo -e "^c$fg^"
     fi
 }
 
@@ -135,6 +152,6 @@ while true; do
 	[ $interval = 0 ] || [ $(($interval % 3600)) = 0 ]
 	interval=$((interval + 1))
  # Load Modules
- sleep 1 && xsetroot -name "$(SCREEN)   $(MIC)   $(VOLUME)   $(WIFI)   $(BATTERY)   $(DATETIME)"
+ sleep 1 && xsetroot -name "$(APPS)   $(SCREEN)   $(MIC)   $(VOLUME)   $(WIFI)   $(BATTERY)   $(DATETIME)"
 done
 

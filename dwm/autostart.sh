@@ -55,3 +55,4 @@ xrdb -load ~/.config/X11/xresources &
 
 
 # imwheel -b 45 &
+qbittorrent &
