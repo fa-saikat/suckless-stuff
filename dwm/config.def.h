@@ -8,6 +8,7 @@ static const unsigned int gappih    = 14;       /* horiz inner gap between windo
 static const unsigned int gappiv    = 14;       /* vert inner gap between windows */
 static const unsigned int gappoh    = 14;       /* horiz outer gap between windows and screen edge */
 static const unsigned int gappov    = 14;       /* vert outer gap between windows and screen edge */
+
 static       int smartgaps          = 0;        /* 1 means no outer gap when there is only one window */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
@@ -15,6 +16,12 @@ static const int vertpad            = 10;       /* vertical padding of bar */
 static const int sidepad            = 14;       /* horizontal padding of bar */
 static const int horizpadbar        = 86;       /* horizontal padding for statusbar */
 static const int vertpadbar         = 8;       /* vertical padding for statusbar */
+
+static const int showsystray             = 1;     /* 0 means no systray */
+static const unsigned int systraypinning = 0;   /* 0: sloppy systray follows selected monitor, >0: pin systray to monitor X */
+static const unsigned int systrayspacing = 2;   /* systray spacing */
+static const int systraypinningfailfirst = 1;   /* 1: if pinning fails, display systray on the first monitor, False: display systray on the last monitor*/
+
 
 static const char *fonts[] = {
     "JetbrainsMono nerd font: style=Bold: size=11",
@@ -58,7 +65,7 @@ static Sp scratchpads[] = {
 /* tagging */
 /* static const char *tags[] = { " 1 ", " 2 ", " 3 ", " 4 ", " 5 ", " 6 ", " 7 ", " 8 ", " 9 " }; */
 static const char *tags[]              = { "  ","  ","  ","  ","  ","  " };
-static const char *defaulttagapps[] = { NULL, "alacritty", "chromium", "kate", "dolphin", "qbittorrent" };
+static const char *defaulttagapps[]    = { NULL, "alacritty", "chromium", "kate", "dolphin", "qbittorrent" };
 static const unsigned int ulinepad     = 5;	/* horizontal padding between the underline and tag */
 static const unsigned int ulinestroke  = 2;	/* thickness / height of the underline */
 static const unsigned int ulinevoffset = 0;	/* how far above the bottom of the bar the line should appear */
@@ -149,7 +156,7 @@ static const Layout layouts[] = {
 static char dmenumon[2]       = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_run", "-fn", dmenu_font, "-nb", dmenu_bg, "-nf", dmenu_fg, "-sb", dmenu_sbg, "-sf", dmenu_sfg, "-l", "10", NULL};
 static const char *roficmd[]  = { "rofi", "-show", "drun", NULL };
-static const char *termcmd[]  = { "alacritty", NULL };
+static const char *termcmd[]  = { "kitty", NULL };
 static const char *fmcmd[]    = { "dolphin", NULL };
 static const char *webcmd[]   = { "chromium", NULL };
 static const char *calender[] = { "gsimplecal", NULL };
