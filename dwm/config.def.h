@@ -47,25 +47,25 @@ typedef struct {
 	const void *cmd;
 } Sp;
 
-const char *spcmd1[] = { "alacritty",  "-o",  "window.dimensions.rows=34",  "window.dimensions.columns=120",  "--class",  "spterm1" };
-const char *spcmd2[] = { "alacritty",  "-o",  "window.dimensions.rows=34",  "window.dimensions.columns=120",  "--class",  "spterm2" };
-const char *spcmd3[] = { "alacritty",  "-o",  "window.dimensions.rows=35",  "window.dimensions.columns=145",  "--class",  "spbtop",   "--hold",  "-e",  "btop" };
-const char *spcmd4[] = { "alacritty",  "-o",  "window.dimensions.rows=30",  "window.dimensions.columns=130",  "--class",  "spfile",   "--hold",  "-e",  "ranger" };
-const char *spcmd5[] = { "alacritty",  "-o",  "window.dimensions.rows=15",  "window.dimensions.columns=70",   "--class",  "sppulse",  "--hold",  "-e",  "pulsemixer" };
+const char *spcmd1[] = { "kitty", "--class", "spterm1" };
+const char *spcmd2[] = { "kitty", "--class", "spterm2" };
+const char *spcmd3[] = { "kitty", "--class", "sptop", "-e", "htop" };
+const char *spcmd4[] = { "kitty", "--class", "spfile",  "--hold", "-e", "ranger" };
+const char *spcmd5[] = { "kitty", "--class", "sppulse", "--hold", "-e", "pulsemixer" };
 
 static Sp scratchpads[] = {
 	/* name          cmd  */
-	{"spterm1",  spcmd1},
-	{"spterm2",  spcmd2},
-	{"spbtop",   spcmd3},
-	{"spfile",   spcmd4},
-	{"sppulse",  spcmd5},
+	{ "spterm1",  spcmd1},
+	{ "spterm2",  spcmd2},
+	{ "sptop",    spcmd3},
+	{ "spfile",   spcmd4},
+	{ "sppulse",  spcmd5},
 };
 
 /* tagging */
 /* static const char *tags[] = { " 1 ", " 2 ", " 3 ", " 4 ", " 5 ", " 6 ", " 7 ", " 8 ", " 9 " }; */
 static const char *tags[]              = { "  ","  ","  ","  ","  ","  " };
-static const char *defaulttagapps[]    = { NULL, "alacritty", "chromium", "kate", "dolphin", "qbittorrent" };
+static const char *defaulttagapps[]    = { NULL, "kitty", "firefox", "kate", "dolphin", "qbittorrent" };
 static const unsigned int ulinepad     = 5;	/* horizontal padding between the underline and tag */
 static const unsigned int ulinestroke  = 2;	/* thickness / height of the underline */
 static const unsigned int ulinevoffset = 0;	/* how far above the bottom of the bar the line should appear */
@@ -104,7 +104,7 @@ static const Rule rules[] = {
 	{ "plasma.emojier",                 NULL,       NULL,                  0,          0,            1,           0,           0,          -1 },
     { NULL,                             "spterm1",  NULL,                  SPTAG(0),   0,            1,           1,           1,          -1 },
     { NULL,                             "spterm2",  NULL,                  SPTAG(1),   0,            1,           1,           1,          -1 },
-	{ NULL,                             "spbtop",   NULL,                  SPTAG(2),   0,            1,           1,           1,          -1 },
+	{ NULL,                             "sptop",   NULL,                  SPTAG(2),   0,            1,           1,           1,          -1 },
 	{ NULL,                             "spfile",   NULL,                  SPTAG(3),   0,            1,           1,           1,          -1 },
 	{ NULL,                             "sppulse",  NULL,                  SPTAG(4),   0,            1,           1,           1,          -1 },
 };
@@ -158,7 +158,7 @@ static const char *dmenucmd[] = { "dmenu_run", "-fn", dmenu_font, "-nb", dmenu_b
 static const char *roficmd[]  = { "rofi", "-show", "drun", NULL };
 static const char *termcmd[]  = { "kitty", NULL };
 static const char *fmcmd[]    = { "dolphin", NULL };
-static const char *webcmd[]   = { "chromium", NULL };
+static const char *webcmd[]   = { "firefox", NULL };
 static const char *calender[] = { "gsimplecal", NULL };
 
 #include "movestack.c"
@@ -175,7 +175,7 @@ static Key keys[] = {
 
 { MODKEY|ShiftMask,             XK_Return,        togglescratch,   { .ui = 0 } },           /* spterm1 */
 { Mod1Mask,                     XK_Return,        togglescratch,   { .ui = 1 } },           /* spterm2 */
-{ Mod1Mask|ShiftMask,           XK_b,             togglescratch,   { .ui = 2 } },           /* spbtop */
+{ Mod1Mask|ShiftMask,           XK_b,             togglescratch,   { .ui = 2 } },           /* sptop */
 { Mod1Mask|ShiftMask,           XK_f,             togglescratch,   { .ui = 3 } },           /* spfile */
 { Mod1Mask|ShiftMask,           XK_p,             togglescratch,   { .ui = 4 } },           /* sppulse */
 
