@@ -294,8 +294,6 @@ static void spawn(const Arg *arg);
 
 // Systray
 static Monitor *systraytomon(Monitor *m);
-
-static void spawndefault();
 static void tag(const Arg *arg);
 static void tagmon(const Arg *arg);
 static void togglebar(const Arg *arg);
@@ -2360,17 +2358,6 @@ spawn(const Arg *arg)
 		fprintf(stderr, "dwm: execvp %s", ((char **)arg->v)[0]);
 		perror(" failed");
 		exit(EXIT_SUCCESS);
-	}
-}
-
-void
-spawndefault()
-{
-	const char *app = defaulttagapps[lastchosentag[selmon->num]];
-	if (app) {
-		const char *defaultcmd[] = {app, NULL};
-		Arg a = {.v = defaultcmd};
-		spawn(&a);
 	}
 }
 
