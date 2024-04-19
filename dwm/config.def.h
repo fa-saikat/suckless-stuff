@@ -17,6 +17,13 @@ static const int sidepad            = 14;       /* horizontal padding of bar */
 static const int horizpadbar        = 86;       /* horizontal padding for statusbar */
 static const int vertpadbar         = 8;       /* vertical padding for statusbar */
 
+/*  Display modes of the tab bar: never shown, always shown, shown only in  */
+/*  monocle mode in the presence of several windows.                        */
+/*  Modes after showtab_nmodes are disabled.                                */
+enum showtab_modes { showtab_never, showtab_auto, showtab_nmodes, showtab_always};
+static const int showtab			= showtab_auto;        /* Default tab bar show mode */
+static const int toptab				= True;               /* False means bottom tab bar */
+
 static const int showsystray             = 1;     /* 0 means no systray */
 static const unsigned int systraypinning = 0;   /* 0: sloppy systray follows selected monitor, >0: pin systray to monitor X */
 static const unsigned int systrayspacing = 2;   /* systray spacing */
@@ -66,7 +73,6 @@ static const          int ulineall     = 0;	/* 1 to show underline on all tags, 
 static const unsigned int ulinepad     = 5;	/* horizontal padding between the underline and tag */
 static const unsigned int ulinestroke  = 2;	/* thickness / height of the underline */
 static const unsigned int ulinevoffset = 0;	/* how far above the bottom of the bar the line should appear */
-static const int ulineall              = 0;	/* 1 to show underline on all tags, 0 for just the active ones */
 
 static const Rule rules[] = {
 	/* xprop(1):
@@ -149,8 +155,7 @@ static const char *calender[] = { "gsimplecal", NULL };
 static Key keys[] = {
 { MODKEY,                       XK_Return,        spawn,           { .v = termcmd } },
 { MODKEY,                       XK_q,             killclient,      {0} },
-{ MODKEY,                       XK_d,             spawndefault,    {0} },
-
+{ MODKEY,                       XK_w,      		tabmode,        {-1} },
 { MODKEY,                       XK_e,             spawn,           { .v = fmcmd } },
 { MODKEY,                       XK_p,             spawn,           { .v = dmenucmd } },
 { MODKEY,                       XK_r,             spawn,           { .v = roficmd } },
@@ -267,4 +272,5 @@ static Button buttons[] = {
     { ClkTagBar,            0,              Button3,        toggleview,     {0} },
     { ClkTagBar,            MODKEY,         Button1,        tag,            {0} },
     { ClkTagBar,            MODKEY,         Button3,        toggletag,      {0} },
+	{ ClkTabBar,            0,              Button1,        focuswin,       {0} },
 };
