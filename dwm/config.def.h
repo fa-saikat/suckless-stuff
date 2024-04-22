@@ -130,6 +130,9 @@ static const Layout layouts[] = {
 	/* {" ",  spiral 					} , */
 };
 
+/* first element is for all-tag view */
+static int defaultlayouts[1 + LENGTH(tags)]  = { 0, 0, 0, 0, 0, 5 };
+
 /* key definitions */
 #define MODKEY Mod4Mask
 #define TAGKEYS(KEY,TAG) \

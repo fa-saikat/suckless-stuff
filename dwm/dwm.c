@@ -120,7 +120,7 @@ typedef struct {
 typedef struct Monitor Monitor;
 typedef struct Client Client;
 struct Client {
-	char name[256];
+	char name[10];
 	float mina, maxa;
 	int x, y, w, h;
 	int oldx, oldy, oldw, oldh;
@@ -972,7 +972,8 @@ createmon(void)
 	m->gappiv = gappiv;
 	m->gappoh = gappoh;
 	m->gappov = gappov;
-	m->lt[0] = &layouts[0];
+	// m->lt[0] = &layouts[0];
+  m->lt[0] = &layouts[defaultlayouts[1]];
 	m->lt[1] = &layouts[1 % LENGTH(layouts)];
 	strncpy(m->ltsymbol, layouts[0].symbol, sizeof m->ltsymbol);
 	if (!(m->pertag = (Pertag *)calloc(1, sizeof(Pertag))))
@@ -986,7 +987,8 @@ createmon(void)
 		m->pertag->mfacts[i] = m->mfact;
 
 		/* init layouts */
-		m->pertag->ltidxs[i][0] = m->lt[0];
+		// m->pertag->ltidxs[i][0] = m->lt[0];
+    m->pertag->ltidxs[i][0] = &layouts[defaultlayouts[i]];
 		m->pertag->ltidxs[i][1] = m->lt[1];
 		m->pertag->sellts[i] = m->sellt;
 	}
