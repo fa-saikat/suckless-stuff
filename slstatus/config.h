@@ -63,12 +63,7 @@ static const char unknown_str[] = "n/a";
  */
 static const struct arg args[] = {
 	/* function format          argument */
-		{ uptime,  			"%s",          			NULL 						},
-		{ vol_perc, 		"墳%s", 					"/dev/mixer"  				},
-		{ run_command,      "%s",                      "amixer | awk 'NR == 13 {print $NF}'" },
-		{ cpu_perc, 		"﬙%s", 					NULL  		  		},
-		{ ram_perc, 		"%s", 					NULL	      		},
-		{ battery_state,	"%s", 						"BAT0"	      		},
-		{ battery_perc, 	"%s", 					"BAT0"	      		},
-		{ datetime, 		"%s",						"%a %b %d%I:%M %p" }
+		{ battery_state,	"%s",         "BAT1"	      		},
+		{ battery_perc, 	"[%s] ", 			"BAT1"	      		},
+		{ datetime, 		  "%s",					"[%a %d] [%I:%M]" }
 };
