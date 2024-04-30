@@ -20,7 +20,7 @@ static const int vertpadbar         = 8;       /* vertical padding for statusbar
 /*  Display modes of the tab bar: never shown, always shown, shown only in  */
 /*  monocle mode in the presence of several windows.                        */
 /*  Modes after showtab_nmodes are disabled.                                */
-enum showtab_modes { showtab_never, showtab_auto, showtab_nmodes, showtab_always};
+enum showtab_modes { showtab_never, showtab_auto, showtab_nmodes, showtab_always };
 static const int showtab			= showtab_auto;        /* Default tab bar show mode */
 static const int toptab				= True;               /* False means bottom tab bar */
 
@@ -51,19 +51,19 @@ typedef struct {
 	const void *cmd;
 } Sp;
 
-const char *spcmd1[] = { "kitty", "--class", "spterm1" };
-const char *spcmd2[] = { "kitty", "--class", "spterm2" };
-const char *spcmd3[] = { "kitty", "--class", "spterm3", "-e", "htop" };
-const char *spcmd4[] = { "kitty", "--class", "spterm4", "--hold", "-e", "ranger" };
-const char *spcmd5[] = { "kitty", "--class", "spterm5", "--hold", "-e", "pulsemixer" };
+const char *spcmd1[] = { "kitty", "--class", "spterm1", NULL };
+const char *spcmd2[] = { "kitty", "--class", "spterm2", NULL };
+const char *spcmd3[] = { "kitty", "--class", "spterm3", "-e", "htop", NULL  };
+const char *spcmd4[] = { "dolphin", NULL };
+const char *spcmd5[] = { "pavucontrol", NULL };
 
 static Sp scratchpads[] = {
-	/* name          cmd  */
-	{ "spterm1",  spcmd1},
-	{ "spterm2",  spcmd2},
-	{ "spterm3",  spcmd3},
-	{ "spterm4",  spcmd4},
-	{ "spterm5",  spcmd5},
+	/* name             cmd  */
+	{ "spterm1",      spcmd1},
+	{ "spterm2",      spcmd2},
+	{ "spterm3",      spcmd3},
+	{ "dolphin",      spcmd4},
+	{ "pavucontrol",  spcmd5},
 };
 
 /* tagging */
@@ -79,23 +79,22 @@ static const Rule rules[] = {
 	 *	WM_CLASS(STRING) = instance, class
 	 *	WM_NAME(STRING) = title
 	 */
-	/* class,             instance,   title,          tags mask,  switchtotag,  isfloating,  isterminal,  noswallow,  monitor */
-	{ NULL,               NULL,       "Event Tester", 0,          0,            0,           0,           1,          -1 },   /* xev */
-	{ "Alacritty",        NULL,       NULL,           0,          0,            0,           1,           0,          -1 },
-	{ "kitty",            NULL,       NULL,           0,          0,            0,           1,           0,          -1 },
-	{ "st-256color",      NULL,       NULL,           0,          0,            0,           1,           0,          -1 },
-	{ "St",               NULL,       NULL,           0,          0,            0,           1,           0,          -1 },
-	{ "plasma.emojier",   NULL,       NULL,           0,          0,            1,           0,           0,          -1 },
-	{ "firefox",          NULL,       NULL,           1 << 2,     0,            0,           0,           0,          -1 },
-	{ "zoom",             NULL,       "Settings",     1 << 4,     1,            1,           0,           0,          -1 },
-	{ "zoom",             "zoom",     NULL,           1 << 4,     1,            1,           0,           0,          -1 },
-	{ "dolphin",          NULL,       NULL,           1 << 4,     1,            0,           0,           0,          -1 },
-	{ "qBittorrent",      NULL,       NULL,           1 << 5,     0,            0,           0,           0,          -1 },
-  { NULL,               "spterm1",  NULL,           SPTAG(0),   0,            1,           1,           1,          -1 },
-  { NULL,               "spterm2",  NULL,           SPTAG(1),   0,            1,           1,           1,          -1 },
-	{ NULL,               "spterm3",  NULL,           SPTAG(2),   0,            1,           1,           1,          -1 },
-	{ NULL,               "spterm4",  NULL,           SPTAG(3),   0,            1,           1,           1,          -1 },
-	{ NULL,               "spterm5",  NULL,           SPTAG(4),   0,            1,           1,           1,          -1 },
+	/* class,             instance,       title,          tags mask,  switchtotag,  isfloating,  isterminal,  noswallow,  monitor */
+	{ NULL,               NULL,           "Event Tester", 0,          0,            0,           0,           1,          -1 },   /* xev */
+	{ "Alacritty",        NULL,           NULL,           0,          0,            0,           1,           0,          -1 },
+	{ "kitty",            NULL,           NULL,           0,          0,            0,           1,           0,          -1 },
+	{ "st-256color",      NULL,           NULL,           0,          0,            0,           1,           0,          -1 },
+	{ "St",               NULL,           NULL,           0,          0,            0,           1,           0,          -1 },
+	{ "plasma.emojier",   NULL,           NULL,           0,          0,            1,           0,           0,          -1 },
+	{ "firefox",          NULL,           NULL,           1 << 2,     0,            0,           0,           0,          -1 },
+	{ "zoom",             NULL,           "Settings",     1 << 4,     1,            1,           0,           0,          -1 },
+	{ "zoom",             "zoom",         NULL,           1 << 4,     1,            1,           0,           0,          -1 },
+	{ "qBittorrent",      NULL,           NULL,           1 << 5,     0,            0,           0,           0,          -1 },
+  { NULL,               "spterm1",      NULL,           SPTAG(0),   0,            1,           1,           1,          -1 },
+  { NULL,               "spterm2",      NULL,           SPTAG(1),   0,            1,           1,           1,          -1 },
+	{ NULL,               "spterm3",      NULL,           SPTAG(2),   0,            1,           1,           1,          -1 },
+	{ NULL,               "dolphin",      NULL,           SPTAG(3),   0,            1,           1,           1,          -1 },
+	{ NULL,               "pavucontrol",  NULL,           SPTAG(4),   0,            1,           1,           1,          -1 },
 };
 
 /* layout(s) */
@@ -117,21 +116,12 @@ static const Layout layouts[] = {
 	{   "󰇙 󰬎",    grid 					  },
 	{ 	"󰇙 [M]",  monocle 				},
 	{ 	NULL,     NULL 					  }
-
-	/* {" ﰧ",  bstackhoriz 			} , */
-	/* {" 恵",  centeredfloatingmaster 	} , */
-	/* {" 頻",  centeredmaster 			} , */
-	/* {" ",  deck 					} , */
-	/* {" 舘",  dwindle 				} , */
-	/* {" ﱖ",  gaplessgrid 			} , */
-	/* {" 﩯",  grid 					} , */
-	/* {" ﳼ",  horizgrid 				} , */
-	/* {" ",  nrowgrid 				} , */
-	/* {" ",  spiral 					} , */
 };
 
 /* first element is for all-tag view */
-static int defaultlayouts[1 + LENGTH(tags)]  = { 0, 0, 0, 0, 0, 5 };
+static int defaultlayouts[1 + LENGTH(tags)] = {
+    0, 0, 0, 0, 0, 0 
+};
 
 /* key definitions */
 #define MODKEY Mod4Mask
@@ -156,108 +146,107 @@ static const char *calender[] = { "gsimplecal", NULL };
 #include "movestack.c"
 
 static Key keys[] = {
-{ MODKEY,                       XK_Return,        spawn,           { .v = termcmd } },
-{ MODKEY,                       XK_q,             killclient,      {0} },
-{ MODKEY,                       XK_w,      		tabmode,        {-1} },
-{ MODKEY,                       XK_e,             spawn,           { .v = fmcmd } },
-{ MODKEY,                       XK_p,             spawn,           { .v = dmenucmd } },
-{ MODKEY,                       XK_r,             spawn,           { .v = roficmd } },
-{ MODKEY,                       XK_w,             spawn,           { .v = webcmd } },
+    { MODKEY,                       XK_Return,        spawn,           { .v = termcmd } },
+    { MODKEY,                       XK_q,             killclient,      {0} },
+    { MODKEY,                       XK_w,      		    tabmode,         {-1} },
+    { MODKEY,                       XK_e,             spawn,           { .v = fmcmd } },
+    { MODKEY,                       XK_p,             spawn,           { .v = dmenucmd } },
+    { MODKEY,                       XK_r,             spawn,           { .v = roficmd } },
+    { MODKEY,                       XK_w,             spawn,           { .v = webcmd } },
 
-{ MODKEY|ShiftMask,             XK_Return,        togglescratch,   { .ui = 0 } },           /* spterm1 */
-{ Mod1Mask,                     XK_Return,        togglescratch,   { .ui = 1 } },           /* spterm2 */
-{ Mod1Mask|ShiftMask,           XK_b,             togglescratch,   { .ui = 2 } },           /* sptop */
-{ Mod1Mask|ShiftMask,           XK_f,             togglescratch,   { .ui = 3 } },           /* spfile */
-{ Mod1Mask|ShiftMask,           XK_p,             togglescratch,   { .ui = 4 } },           /* sppulse */
+    { MODKEY|ControlMask,           XK_1,             togglescratch,     { .ui = 0 } },           /* spterm1 */
+    { MODKEY|ControlMask,           XK_2,             togglescratch,     { .ui = 1 } },           /* spterm2 */
+    { MODKEY|ControlMask,           XK_3,             togglescratch,   { .ui = 2 } },           /* sptop */
+    { MODKEY|ControlMask,           XK_4,             togglescratch,   { .ui = 3 } },           /* spfile */
+    { MODKEY|ControlMask,           XK_5,             togglescratch,   { .ui = 4 } },           /* sppulse */
 
-{ MODKEY,                       XK_h,             setmfact,        { .f = -0.05} },
-{ MODKEY,                       XK_l,             setmfact,        { .f = +0.05} },
+    { MODKEY,                       XK_h,             setmfact,        { .f = -0.05} },
+    { MODKEY,                       XK_l,             setmfact,        { .f = +0.05} },
 
-{ MODKEY,                       XK_j,             focusstack,      { .i = +1 } },
-{ MODKEY,                       XK_k,             focusstack,      { .i = -1 } },
+    { MODKEY,                       XK_j,             focusstack,      { .i = +1 } },
+    { MODKEY,                       XK_k,             focusstack,      { .i = -1 } },
 
-{ MODKEY|ShiftMask,             XK_j,             movestack,       { .i = +1} },
-{ MODKEY|ShiftMask,             XK_k,             movestack,       { .i = -1} },
+    { MODKEY|ShiftMask,             XK_j,             movestack,       { .i = +1} },
+    { MODKEY|ShiftMask,             XK_k,             movestack,       { .i = -1} },
 
-{ MODKEY|ControlMask,           XK_i,             incnmaster,      { .i = +1 } },
-{ MODKEY|ControlMask,           XK_d,             incnmaster,      { .i = -1 } },
+    { MODKEY|ControlMask,           XK_i,             incnmaster,      { .i = +1 } },
+    { MODKEY|ControlMask,           XK_d,             incnmaster,      { .i = -1 } },
 
-{ MODKEY|ControlMask,           XK_b,             togglebar,       {0} },
-{ MODKEY,                       XK_s,             togglesticky,    {0} },
-{ MODKEY,                       XK_space,         togglefloating,  {0} },
-{ MODKEY,                       XK_s,             togglesticky,    {0} },
+    { MODKEY|ControlMask,           XK_b,             togglebar,       {0} },
+    { MODKEY,                       XK_s,             togglesticky,    {0} },
+    { MODKEY,                       XK_space,         togglefloating,  {0} },
+    { MODKEY,                       XK_s,             togglesticky,    {0} },
 
-{ MODKEY,                       XK_backslash,     zoom,            {0} },
-{ MODKEY|ShiftMask,             XK_backslash,     focusmaster,     {0} },
+    { MODKEY,                       XK_backslash,     zoom,            {0} },
+    { MODKEY|ShiftMask,             XK_backslash,     focusmaster,     {0} },
 
-{ MODKEY,                       XK_a,             tag,             { .ui = ~0 } },
-{ MODKEY|ShiftMask,             XK_a,             view,            { .ui = ~0 } },
-{ MODKEY,                       XK_Tab,           view,            {0} },
+    { MODKEY,                       XK_a,             tag,             { .ui = ~0 } },
+    { MODKEY|ShiftMask,             XK_a,             view,            { .ui = ~0 } },
+    { MODKEY,                       XK_Tab,           view,            {0} },
 
-{ MODKEY,                       XK_Page_Up,       cyclelayout,     { .i = -1 } },
-{ MODKEY,                       XK_Page_Down,     cyclelayout,     { .i = +1 } },
+    { MODKEY,                       XK_Page_Up,       cyclelayout,     { .i = -1 } },
+    { MODKEY,                       XK_Page_Down,     cyclelayout,     { .i = +1 } },
 
-{ MODKEY,                       XK_bracketleft,   focusmon,        { .i = -1 } },
-{ MODKEY,                       XK_bracketright,  focusmon,        { .i = +1 } },
-{ MODKEY|ShiftMask,             XK_bracketleft,   tagmon,          { .i = -1 } },
-{ MODKEY|ShiftMask,             XK_bracketright,  tagmon,          { .i = +1 } },
+    { MODKEY,                       XK_bracketleft,   focusmon,        { .i = -1 } },
+    { MODKEY,                       XK_bracketright,  focusmon,        { .i = +1 } },
+    { MODKEY|ShiftMask,             XK_bracketleft,   tagmon,          { .i = -1 } },
+    { MODKEY|ShiftMask,             XK_bracketright,  tagmon,          { .i = +1 } },
 
-{ MODKEY,                       XK_comma,         shiftview,       { .i = -1 } },
-{ MODKEY,                       XK_period,        shiftview,       { .i = +1 } },
+    { MODKEY,                       XK_comma,         shiftview,       { .i = -1 } },
+    { MODKEY,                       XK_period,        shiftview,       { .i = +1 } },
 
-{ MODKEY|ShiftMask,             XK_r,             quit,            {1} },
-{ MODKEY|ShiftMask,             XK_q,             quit,            {0} },
+    { MODKEY|ShiftMask,             XK_r,             quit,            {1} },
+    { MODKEY|ShiftMask,             XK_q,             quit,            {0} },
 
-{ MODKEY|ShiftMask,             XK_Return,        togglescratch,   { .ui = 0 } },           /* spterm1 */
-{ Mod1Mask,                     XK_Return,        togglescratch,   { .ui = 1 } },           /* spterm2 */
-{ Mod1Mask|ShiftMask,           XK_b,             togglescratch,   { .ui = 2 } },           /* spterm3 */
-{ Mod1Mask|ShiftMask,           XK_f,             togglescratch,   { .ui = 3 } },           /* spterm4 */
-{ Mod1Mask|ShiftMask,           XK_p,             togglescratch,   { .ui = 4 } },           /* spterm5 */
+    { MODKEY|ShiftMask,             XK_Return,        togglescratch,   { .ui = 0 } },           /* spterm1 */
+    { Mod1Mask,                     XK_Return,        togglescratch,   { .ui = 1 } },           /* spterm2 */
+    { Mod1Mask|ShiftMask,           XK_b,             togglescratch,   { .ui = 2 } },           /* spterm3 */
+    { Mod1Mask|ShiftMask,           XK_f,             togglescratch,   { .ui = 3 } },           /* spterm4 */
+    { Mod1Mask|ShiftMask,           XK_p,             togglescratch,   { .ui = 4 } },           /* spterm5 */
 
-{ MODKEY,                       XK_0,             togglegaps,      {0} },
-{ MODKEY|ShiftMask,             XK_0,             defaultgaps,     {0} },
-{ MODKEY,                       XK_equal,         incrgaps,        { .i = +1 } },
-{ MODKEY,                       XK_minus,         incrgaps,        { .i = -1 } },
-{ MODKEY,                       XK_i,             incrigaps,       { .i = +1 } },
-{ MODKEY|ShiftMask,             XK_i,             incrigaps,       { .i = -1 } },
-{ MODKEY,                       XK_o,             incrogaps,       { .i = +1 } },
-{ MODKEY|ShiftMask,             XK_o,             incrogaps,       { .i = -1 } },
-{ MODKEY,                       XK_6,             incrihgaps,      { .i = +1 } },
-{ MODKEY|ShiftMask,             XK_6,             incrihgaps,      { .i = -1 } },
-{ MODKEY,                       XK_7,             incrivgaps,      { .i = +1 } },
-{ MODKEY|ShiftMask,             XK_7,             incrivgaps,      { .i = -1 } },
-{ MODKEY,                       XK_8,             incrohgaps,      { .i = +1 } },
-{ MODKEY|ShiftMask,             XK_8,             incrohgaps,      { .i = -1 } },
-{ MODKEY,                       XK_9,             incrovgaps,      { .i = +1 } },
-{ MODKEY|ShiftMask,             XK_9,             incrovgaps,      { .i = -1 } },
+    { MODKEY,                       XK_0,             togglegaps,      {0} },
+    { MODKEY|ShiftMask,             XK_0,             defaultgaps,     {0} },
+    { MODKEY,                       XK_equal,         incrgaps,        { .i = +1 } },
+    { MODKEY,                       XK_minus,         incrgaps,        { .i = -1 } },
+    { MODKEY,                       XK_i,             incrigaps,       { .i = +1 } },
+    { MODKEY|ShiftMask,             XK_i,             incrigaps,       { .i = -1 } },
+    { MODKEY,                       XK_o,             incrogaps,       { .i = +1 } },
+    { MODKEY|ShiftMask,             XK_o,             incrogaps,       { .i = -1 } },
+    { MODKEY,                       XK_6,             incrihgaps,      { .i = +1 } },
+    { MODKEY|ShiftMask,             XK_6,             incrihgaps,      { .i = -1 } },
+    { MODKEY,                       XK_7,             incrivgaps,      { .i = +1 } },
+    { MODKEY|ShiftMask,             XK_7,             incrivgaps,      { .i = -1 } },
+    { MODKEY,                       XK_8,             incrohgaps,      { .i = +1 } },
+    { MODKEY|ShiftMask,             XK_8,             incrohgaps,      { .i = -1 } },
+    { MODKEY,                       XK_9,             incrovgaps,      { .i = +1 } },
+    { MODKEY|ShiftMask,             XK_9,             incrovgaps,      { .i = -1 } },
 
-{ MODKEY,                       XK_t,             setlayout,       { .v = &layouts[0]} },   /* Tile */
-{ MODKEY,                       XK_f,             setlayout,       { .v = &layouts[1]} },   /* Floating */
-{ MODKEY|ShiftMask,             XK_t,             setlayout,       { .v = &layouts[2]} },   /* Bottomstack */
-{ MODKEY,                       XK_c,             setlayout,       { .v = &layouts[3]} },   /* Centeredmaster */
-{ MODKEY,                       XK_g,             setlayout,       { .v = &layouts[4]} },   /* Gird */
-{ MODKEY,                       XK_m,             setlayout,       { .v = &layouts[5]} },   /* Monocole */
+    { MODKEY,                       XK_t,             setlayout,       { .v = &layouts[0]} },   /* Tile */
+    { MODKEY,                       XK_f,             setlayout,       { .v = &layouts[1]} },   /* Floating */
+    { MODKEY|ShiftMask,             XK_t,             setlayout,       { .v = &layouts[2]} },   /* Bottomstack */
+    { MODKEY,                       XK_c,             setlayout,       { .v = &layouts[3]} },   /* Centeredmaster */
+    { MODKEY,                       XK_g,             setlayout,       { .v = &layouts[4]} },   /* Gird */
+    { MODKEY,                       XK_m,             setlayout,       { .v = &layouts[5]} },   /* Monocole */
 
-//{ MODKEY|Mod1Mask,  XK_,             setlayout,       { .v = &layouts[]} },   /* Bottomstack Horizontal */
-//{ MODKEY|Mod1Mask,  XK_,             setlayout,       { .v = &layouts[]} },   /* Centeredmaster */
-//{ MODKEY|Mod1Mask,  XK_,             setlayout,       { .v = &layouts[]} },   /* Centeredmaster Floating */
-//{ MODKEY|Mod1Mask,  XK_,             setlayout,       { .v = &layouts[]} },   /* Deck */
-//{ MODKEY|Mod1Mask,  XK_,             setlayout,       { .v = &layouts[]} },   /* Dwindle */
-//{ MODKEY|Mod1Mask,  XK_,             setlayout,       { .v = &layouts[]} },   /* Gird */
-//{ MODKEY|Mod1Mask,  XK_,             setlayout,       { .v = &layouts[]} },   /* Gird Gapless*/
-//{ MODKEY|Mod1Mask,  XK_,             setlayout,       { .v = &layouts[]} },   /* Gird Horizontal *1/
-//{ MODKEY|Mod1Mask,  XK_,             setlayout,       { .v = &layouts[]} },   /* Gird Row *1/
-//{ MODKEY|Mod1Mask,  XK_,             setlayout,       { .v = &layouts[]} },   /* Spiral */
+    //{ MODKEY|Mod1Mask,  XK_,             setlayout,       { .v = &layouts[]} },   /* Bottomstack Horizontal */
+    //{ MODKEY|Mod1Mask,  XK_,             setlayout,       { .v = &layouts[]} },   /* Centeredmaster */
+    //{ MODKEY|Mod1Mask,  XK_,             setlayout,       { .v = &layouts[]} },   /* Centeredmaster Floating */
+    //{ MODKEY|Mod1Mask,  XK_,             setlayout,       { .v = &layouts[]} },   /* Deck */
+    //{ MODKEY|Mod1Mask,  XK_,             setlayout,       { .v = &layouts[]} },   /* Dwindle */
+    //{ MODKEY|Mod1Mask,  XK_,             setlayout,       { .v = &layouts[]} },   /* Gird */
+    //{ MODKEY|Mod1Mask,  XK_,             setlayout,       { .v = &layouts[]} },   /* Gird Gapless*/
+    //{ MODKEY|Mod1Mask,  XK_,             setlayout,       { .v = &layouts[]} },   /* Gird Horizontal *1/
+    //{ MODKEY|Mod1Mask,  XK_,             setlayout,       { .v = &layouts[]} },   /* Gird Row *1/
+    //{ MODKEY|Mod1Mask,  XK_,             setlayout,       { .v = &layouts[]} },   /* Spiral */
 
-TAGKEYS ( XK_1,                 0 )
-TAGKEYS ( XK_2,                 1 )
-TAGKEYS ( XK_3,                 2 )
-TAGKEYS ( XK_4,                 3 )
-TAGKEYS ( XK_5,                 4 )
-TAGKEYS ( XK_6,                 5 )
-/* TAGKEYS ( XK_7,                6 ) */
-/* TAGKEYS ( XK_8,                7 ) */
-
+    TAGKEYS ( XK_1,                 0 )
+    TAGKEYS ( XK_2,                 1 )
+    TAGKEYS ( XK_3,                 2 )
+    TAGKEYS ( XK_4,                 3 )
+    TAGKEYS ( XK_5,                 4 )
+    TAGKEYS ( XK_6,                 5 )
+    /* TAGKEYS ( XK_7,                6 ) */
+    /* TAGKEYS ( XK_8,                7 ) */
 };
 
 /* button definitions */
