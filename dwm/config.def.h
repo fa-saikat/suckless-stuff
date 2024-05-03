@@ -54,21 +54,32 @@ typedef struct {
 const char *spcmd1[] = { "kitty", "--class", "spterm1", NULL };
 const char *spcmd2[] = { "kitty", "--class", "spterm2", NULL };
 const char *spcmd3[] = { "kitty", "--class", "spterm3", "-e", "htop", NULL  };
-const char *spcmd4[] = { "dolphin", NULL };
-const char *spcmd5[] = { "pavucontrol", NULL };
 
 static Sp scratchpads[] = {
 	/* name             cmd  */
 	{ "spterm1",      spcmd1},
 	{ "spterm2",      spcmd2},
 	{ "spterm3",      spcmd3},
-	{ "dolphin",      spcmd4},
-	{ "pavucontrol",  spcmd5},
 };
 
 /* tagging */
-/* static const char *tags[] = { " 1 ", " 2 ", " 3 ", " 4 ", " 5 ", " 6 ", " 7 ", " 8 ", " 9 " }; */
-static const          char *tags[]     = { "󰇊","󰇋","󰇌","󰇍","󰇎","󰇏" };
+// static const          char *tags[]          = { "","","󰈹","","󰣀","","","󰣇" };
+// static const          char *tags[]          = { "󰇊","󰇋","󰇌","󰇍","󰇎","󰇏","󰎶","󰎹" };
+// static const          char *tags[]          = { "󰎤","󰎧","󰎪","󰎭","󰎱","󰎳","󰎶","󰎹", "󰎼" };
+static const          char *tags[]          = { "1","2","3","4","5","6","7","8","9" };
+static int defaultlayouts[1 + LENGTH(tags)] = {  0,  0,  0,  5,  5,  0,  0,  4,  0 };  /* first element is for all-tag view */
+
+/* launcher commands (They must be NULL terminated) */
+static const char* audio[]      = { "pavucontrol",  NULL };
+static const char* web[]      = { "google-chrome-stable", "https://discord.com/app", NULL };
+
+static const Launcher launchers[] = {
+       /* command       name to display */
+	{ audio,         "󰐰" },
+	{ web,           "" },
+};
+
+
 static const          int ulineall     = 0;	/* 1 to show underline on all tags, 0 for just the active ones */
 static const unsigned int ulinepad     = 5;	/* horizontal padding between the underline and tag */
 static const unsigned int ulinestroke  = 2;	/* thickness / height of the underline */
@@ -80,21 +91,24 @@ static const Rule rules[] = {
 	 *	WM_NAME(STRING) = title
 	 */
 	/* class,             instance,       title,          tags mask,  switchtotag,  isfloating,  isterminal,  noswallow,  monitor */
-	{ NULL,               NULL,           "Event Tester", 0,          0,            0,           0,           1,          -1 },   /* xev */
-	{ "Alacritty",        NULL,           NULL,           0,          0,            0,           1,           0,          -1 },
-	{ "kitty",            NULL,           NULL,           0,          0,            0,           1,           0,          -1 },
-	{ "st-256color",      NULL,           NULL,           0,          0,            0,           1,           0,          -1 },
-	{ "St",               NULL,           NULL,           0,          0,            0,           1,           0,          -1 },
-	{ "plasma.emojier",   NULL,           NULL,           0,          0,            1,           0,           0,          -1 },
-	{ "firefox",          NULL,           NULL,           1 << 2,     0,            0,           0,           0,          -1 },
-	{ "zoom",             NULL,           "Settings",     1 << 4,     1,            1,           0,           0,          -1 },
-	{ "zoom",             "zoom",         NULL,           1 << 4,     1,            1,           0,           0,          -1 },
-	{ "qBittorrent",      NULL,           NULL,           1 << 5,     0,            0,           0,           0,          -1 },
-  { NULL,               "spterm1",      NULL,           SPTAG(0),   0,            1,           1,           1,          -1 },
-  { NULL,               "spterm2",      NULL,           SPTAG(1),   0,            1,           1,           1,          -1 },
-	{ NULL,               "spterm3",      NULL,           SPTAG(2),   0,            1,           1,           1,          -1 },
-	{ NULL,               "dolphin",      NULL,           SPTAG(3),   0,            1,           1,           1,          -1 },
-	{ NULL,               "pavucontrol",  NULL,           SPTAG(4),   0,            1,           1,           1,          -1 },
+	{ NULL,               NULL,           "Event Tester", 0,          0,            0,            0,           1,          -1 },   /* xev */
+	{ "Alacritty",        NULL,           NULL,           0,          0,            0,            1,           0,          -1 },
+  { "balena-etcher",    "balena-etcher","balenaEtcher", 1 << 6,     1,            1,            0,           0,          -1 },
+  { "dolphin",          "dolphin",      "Home",         1 << 7,     1,            0,            0,           0,          -1 },
+  { "Google-chrome",    "google-chrome",NULL,           1 << 3,     1,            0,            0,           0,          -1 },
+	{ "St",               NULL,           NULL,           0,          0,            0,            1,           0,          -1 },
+	{ "firefox",          NULL,           NULL,           1 << 2,     0,            0,            0,           0,          -1 },
+	{ "kitty",            NULL,           NULL,           0,          0,            0,            1,           0,          -1 },
+	{ "plasma.emojier",   NULL,           NULL,           0,          0,            1,            0,           0,          -1 },
+	{ "qBittorrent",      NULL,           NULL,           1 << 8,     0,            0,            0,           0,          -1 },
+	{ "st-256color",      NULL,           NULL,           0,          0,            0,            1,           0,          -1 },
+	{ "zoom",             "zoom",         NULL,           1 << 4,     1,            1,            0,           0,          -1 },
+	{ "zoom",             NULL,           "Settings",     1 << 4,     1,            1,            0,           0,          -1 },
+  { NULL,               "spterm1",      NULL,           SPTAG(0),   0,            1,            1,           1,          -1 },
+  { NULL,               "spterm2",      NULL,           SPTAG(1),   0,            1,            1,           1,          -1 },
+	{ NULL,               "spterm3",      NULL,           SPTAG(2),   0,            1,            1,           1,          -1 },
+	// { NULL,               "dolphin",      NULL,           SPTAG(3),   0,            1,           1,           1,          -1 },
+	// { NULL,               "pavucontrol",  NULL,           SPTAG(4),   0,            1,           1,           1,          -1 },
 };
 
 /* layout(s) */
@@ -109,19 +123,15 @@ static const int lockfullscreen = 1;    /* 1 will force focus on the fullscreen 
 
 static const Layout layouts[] = {
 	/* symbol     arrange function */
-	{ 	"󰇙 󰬛",    tile 					  },  /* first entry is default */
-	{ 	"󰇙 󰬍",    NULL 					  },  /* no layout function means floating behavior */
-	{ 	"󰇙 󰬉",    bstack 					},
-	{   "󰇙 󰬊",    centeredmaster 	},
-	{   "󰇙 󰬎",    grid 					  },
-	{ 	"󰇙 [M]",  monocle 				},
+	{ 	"󰇙 󰬛 󰇙",    tile 					  },  /* first entry is default */
+	{ 	"󰇙 󰬍 󰇙",    NULL 					  },  /* no layout function means floating behavior */
+	{ 	"󰇙 󰬉 󰇙",    bstack 					},
+	{   "󰇙 󰬊 󰇙",    centeredmaster 	},
+	{   "󰇙 󰬎 󰇙",    grid 					  },
+	{ 	"󰇙 [M] 󰇙",  monocle 				},
 	{ 	NULL,     NULL 					  }
 };
 
-/* first element is for all-tag view */
-static int defaultlayouts[1 + LENGTH(tags)] = {
-    0, 0, 0, 0, 0, 0 
-};
 
 /* key definitions */
 #define MODKEY Mod4Mask
@@ -208,18 +218,18 @@ static Key keys[] = {
     { MODKEY|ShiftMask,             XK_0,             defaultgaps,     {0} },
     { MODKEY,                       XK_equal,         incrgaps,        { .i = +1 } },
     { MODKEY,                       XK_minus,         incrgaps,        { .i = -1 } },
-    { MODKEY,                       XK_i,             incrigaps,       { .i = +1 } },
-    { MODKEY|ShiftMask,             XK_i,             incrigaps,       { .i = -1 } },
-    { MODKEY,                       XK_o,             incrogaps,       { .i = +1 } },
-    { MODKEY|ShiftMask,             XK_o,             incrogaps,       { .i = -1 } },
-    { MODKEY,                       XK_6,             incrihgaps,      { .i = +1 } },
-    { MODKEY|ShiftMask,             XK_6,             incrihgaps,      { .i = -1 } },
-    { MODKEY,                       XK_7,             incrivgaps,      { .i = +1 } },
-    { MODKEY|ShiftMask,             XK_7,             incrivgaps,      { .i = -1 } },
-    { MODKEY,                       XK_8,             incrohgaps,      { .i = +1 } },
-    { MODKEY|ShiftMask,             XK_8,             incrohgaps,      { .i = -1 } },
-    { MODKEY,                       XK_9,             incrovgaps,      { .i = +1 } },
-    { MODKEY|ShiftMask,             XK_9,             incrovgaps,      { .i = -1 } },
+    // { MODKEY,                       XK_i,             incrigaps,       { .i = +1 } },
+    // { MODKEY|ShiftMask,             XK_i,             incrigaps,       { .i = -1 } },
+    // { MODKEY,                       XK_o,             incrogaps,       { .i = +1 } },
+    // { MODKEY|ShiftMask,             XK_o,             incrogaps,       { .i = -1 } },
+    // { MODKEY,                       XK_6,             incrihgaps,      { .i = +1 } },
+    // { MODKEY|ShiftMask,             XK_6,             incrihgaps,      { .i = -1 } },
+    // { MODKEY,                       XK_7,             incrivgaps,      { .i = +1 } },
+    // { MODKEY|ShiftMask,             XK_7,             incrivgaps,      { .i = -1 } },
+    // { MODKEY,                       XK_8,             incrohgaps,      { .i = +1 } },
+    // { MODKEY|ShiftMask,             XK_8,             incrohgaps,      { .i = -1 } },
+    // { MODKEY,                       XK_9,             incrovgaps,      { .i = +1 } },
+    // { MODKEY|ShiftMask,             XK_9,             incrovgaps,      { .i = -1 } },
 
     { MODKEY,                       XK_t,             setlayout,       { .v = &layouts[0]} },   /* Tile */
     { MODKEY,                       XK_f,             setlayout,       { .v = &layouts[1]} },   /* Floating */
@@ -245,8 +255,9 @@ static Key keys[] = {
     TAGKEYS ( XK_4,                 3 )
     TAGKEYS ( XK_5,                 4 )
     TAGKEYS ( XK_6,                 5 )
-    /* TAGKEYS ( XK_7,                6 ) */
-    /* TAGKEYS ( XK_8,                7 ) */
+    TAGKEYS ( XK_7,                 6 )
+    TAGKEYS ( XK_8,                 7 )
+    TAGKEYS ( XK_9,                 8 )
 };
 
 /* button definitions */
@@ -254,9 +265,9 @@ static Key keys[] = {
 static Button buttons[] = {
     /* click                event mask      button          function        argument */
     { ClkLtSymbol,          0,              Button1,        setlayout,      {0} },
-    { ClkLtSymbol,          0,              Button3,        setlayout,      {.v = &layouts[2]} },
+    { ClkLtSymbol,          0,              Button2,        setlayout,      {.v = &layouts[4]} },
+    { ClkLtSymbol,          0,              Button3,        setlayout,      {.v = &layouts[5]} },
     { ClkStatusText,        0,              Button2,        spawn,          {.v = termcmd } },
-    { ClkStatusText,        0,              Button3,        spawn,          {.v = calender} },
     { ClkClientWin,         MODKEY,         Button1,        movemouse,      {0} },
     { ClkClientWin,         MODKEY,         Button2,        togglefloating, {0} },
     { ClkClientWin,         MODKEY,         Button3,        resizemouse,    {0} },
