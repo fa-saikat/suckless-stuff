@@ -31,9 +31,11 @@ static const int systraypinningfailfirst = 1;   /* 1: if pinning fails, display 
 
 
 static const char *fonts[] = {
+    "Terminus               : style=Bold: size=14",
     "JetbrainsMono Nerd Font: style=Bold: size=12",
     "NotoSansMono Nerd Font : style=Bold: size=12",
 };
+
 static const char dmenu_font[]= {
     "JetbrainsMono Nerd Font: style=Bold: size=12",
 };
@@ -53,13 +55,13 @@ typedef struct {
 
 const char *spcmd1[] = { "kitty", "--class", "spterm1", NULL };
 const char *spcmd2[] = { "kitty", "--class", "spterm2", NULL };
-const char *spcmd3[] = { "kitty", "--class", "spterm3", "-e", "htop", NULL  };
+const char *spcmd3[] = { "pavucontrol-qt", NULL  };
 
 static Sp scratchpads[] = {
-	/* name             cmd  */
-	{ "spterm1",      spcmd1},
-	{ "spterm2",      spcmd2},
-	{ "spterm3",      spcmd3},
+	/* name                     cmd  */
+	{ "spterm1",            spcmd1 },
+	{ "spterm2",            spcmd2 },
+	{ "pavucontrol-qt",     spcmd3 },
 };
 
 /* tagging */
@@ -67,7 +69,7 @@ static Sp scratchpads[] = {
 // static const          char *tags[]          = { "󰇊","󰇋","󰇌","󰇍","󰇎","󰇏","󰎶","󰎹" };
 // static const          char *tags[]          = { "󰎤","󰎧","󰎪","󰎭","󰎱","󰎳","󰎶","󰎹", "󰎼" };
 static const          char *tags[]          = { "1","2","3","4","5","6","7","8","9" };
-static int defaultlayouts[1 + LENGTH(tags)] = {  0,  0,  0,  5,  5,  0,  0,  4,  0 };  /* first element is for all-tag view */
+static int defaultlayouts[1 + LENGTH(tags)] = {  0,  0,  0,  5,  4,  0,  0,  4,  0 };  /* first element is for all-tag view */
 
 /* launcher commands (They must be NULL terminated) */
 static const char* audio[]      = { "pavucontrol",  NULL };
@@ -104,9 +106,10 @@ static const Rule rules[] = {
 	{ "st-256color",      NULL,           NULL,           0,          0,            0,            1,           0,          -1 },
 	{ "zoom",             "zoom",         NULL,           1 << 4,     1,            1,            0,           0,          -1 },
 	{ "zoom",             NULL,           "Settings",     1 << 4,     1,            1,            0,           0,          -1 },
-  { NULL,               "spterm1",      NULL,           SPTAG(0),   0,            1,            1,           1,          -1 },
-  { NULL,               "spterm2",      NULL,           SPTAG(1),   0,            1,            1,           1,          -1 },
-	{ NULL,               "spterm3",      NULL,           SPTAG(2),   0,            1,            1,           1,          -1 },
+
+    { NULL,              "spterm1",         NULL,   SPTAG(0),0,     1,            1,1,          -1 },
+    { NULL,              "spterm2",         NULL,   SPTAG(1),0,     1,            1,1,          -1 },
+	{ "pavucontrol-qt",  "pavucontrol-qt",  NULL,   SPTAG(2),0,     1,            1,1,          -1 },
 	// { NULL,               "dolphin",      NULL,           SPTAG(3),   0,            1,           1,           1,          -1 },
 	// { NULL,               "pavucontrol",  NULL,           SPTAG(4),   0,            1,           1,           1,          -1 },
 };
@@ -148,7 +151,7 @@ static const Layout layouts[] = {
 static char dmenumon[2]       = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_run", "-fn", dmenu_font, "-nb", dmenu_bg, "-nf", dmenu_fg, "-sb", dmenu_sbg, "-sf", dmenu_sfg, "-l", "10", NULL};
 static const char *roficmd[]  = { "rofi", "-show", "drun", NULL };
-static const char *termcmd[]  = { "kitty", NULL };
+static const char *termcmd[]  = { "st", NULL };
 static const char *fmcmd[]    = { "dolphin", NULL };
 static const char *webcmd[]   = { "firefox", NULL };
 static const char *calender[] = { "gsimplecal", NULL };
@@ -164,11 +167,17 @@ static Key keys[] = {
     { MODKEY,                       XK_r,             spawn,           { .v = roficmd } },
     { MODKEY,                       XK_w,             spawn,           { .v = webcmd } },
 
-    { MODKEY|ControlMask,           XK_1,             togglescratch,     { .ui = 0 } },           /* spterm1 */
-    { MODKEY|ControlMask,           XK_2,             togglescratch,     { .ui = 1 } },           /* spterm2 */
-    { MODKEY|ControlMask,           XK_3,             togglescratch,   { .ui = 2 } },           /* sptop */
-    { MODKEY|ControlMask,           XK_4,             togglescratch,   { .ui = 3 } },           /* spfile */
-    { MODKEY|ControlMask,           XK_5,             togglescratch,   { .ui = 4 } },           /* sppulse */
+    { MODKEY|ShiftMask,             XK_Return,        togglescratch,   { .ui = 0 } },           /* spterm1 */
+    { Mod1Mask,                     XK_Return,        togglescratch,   { .ui = 1 } },           /* spterm2 */
+    { MODKEY,                       XK_v,             togglescratch,   { .ui = 2 } },           /* spterm3 */
+    // { Mod1Mask|ShiftMask,           XK_b,             togglescratch,   { .ui = 2 } },           /* spterm3 */
+    // { Mod1Mask|ShiftMask,           XK_f,             togglescratch,   { .ui = 3 } },           /* spterm4 */
+
+    // { MODKEY|ControlMask,           XK_1,             togglescratch,     { .ui = 0 } },           /* spterm1 */
+    // { MODKEY|ControlMask,           XK_2,             togglescratch,     { .ui = 1 } },           /* spterm2 */
+    // { MODKEY|ControlMask,           XK_3,             togglescratch,   { .ui = 2 } },           /* sptop */
+    // { MODKEY|ControlMask,           XK_4,             togglescratch,   { .ui = 3 } },           /* spfile */
+    // { MODKEY|ControlMask,           XK_5,             togglescratch,   { .ui = 4 } },           /* sppulse */
 
     { MODKEY,                       XK_h,             setmfact,        { .f = -0.05} },
     { MODKEY,                       XK_l,             setmfact,        { .f = +0.05} },
