@@ -5,11 +5,12 @@
  *
  * font: see http://freedesktop.org/software/fontconfig/fontconfig-user.html
  */
-static char *font = "JetBrainsMono Nerd Font :pixelsize=15:antialias=true:autohint=true";
-static char *font2[] = { "Iosevka Nerd Font :pixelsize=15:antialias=true:autohint=true" };
+/* static char *font = "JetBrainsMono Nerd Font :pixelsize=17:antialias=true:autohint=true"; */
+static char *font = "mononoki:pixelsize=17:antialias=true:autohint=true";
+static char *font2[] = { "Iosevka Nerd Font :pixelsize=17:antialias=true:autohint=true" };
 //static char *font2[] = { "blobmoji :pixelsize=15:antialias=true:autohint=true" }; enable this if u have libxft-bgra and blobmoji font!
 
-static int borderpx = 0;
+static int borderpx = 30;
 
 /*
  * What program is execed by st depends of these precedence rules:
@@ -116,11 +117,11 @@ char *termname = "st-256color";
 unsigned int tabspaces = 8;
 
 /* bg opacity */
-float alpha = 1.0;
+float alpha = 0.9;
 
 /* Terminal colors (16 first used in escape sequence) */
 static const char *colorname[] = {
-  "#282828", /* hard contrast: #1d2021 / soft contrast: #32302f */
+  "#eeeeee", /* hard contrast: #1d2021 / soft contrast: #32302f */
   "#cc241d",
   "#98971a",
   "#d79921",
@@ -161,7 +162,7 @@ unsigned int defaultrcs = 257;
  * 6: Bar ("|")
  * 7: Snowman ("☃")
  */
-static unsigned int cursorshape = 2;
+static unsigned int cursorshape = 4;
 
 /*
  * Default columns and rows numbers
