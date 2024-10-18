@@ -2,7 +2,7 @@
 
 /* appearance */
 static const unsigned int borderpx  = 2;        /* border pixel of windows */
-static const unsigned int snap      = 32;       /* snap pixel */
+static const unsigned int snap      = 10;       /* snap pixel */
 static const int swallowfloating    = 0;        /* 1 means swallow floating windows by default */
 static const unsigned int gappih    = 14;       /* horiz inner gap between windows */
 static const unsigned int gappiv    = 14;       /* vert inner gap between windows */
@@ -58,9 +58,9 @@ const char *spcmd3[] = { "pavucontrol", NULL  };
 
 static Sp scratchpads[] = {
 	/* name                     cmd  */
-	{ "spterm1",            spcmd1 },
-	{ "spterm2",            spcmd2 },
-	{ "pavucontrol-qt",     spcmd3 },
+	{ "spterm1",    spcmd1 },
+	{ "spterm2",    spcmd2 },
+	{ "pavucontrol",spcmd3 },
 };
 
 /* tagging */
@@ -90,7 +90,7 @@ static const Rule rules[] = {
 	{ "zoom",             NULL,           "Settings",     1 << 4,     1,            1,            0,           0,          -1 },
     { NULL,              "spterm1",         NULL,   SPTAG(0),0,     1,            1,1,          -1 },
     { NULL,              "spterm2",         NULL,   SPTAG(1),0,     1,            1,1,          -1 },
-	{ "pavucontrol",  "pavucontrol",  NULL,   SPTAG(2),0,     1,            1,1,          -1 },
+	{ "pavucontrol",    "pavucontrol",      NULL,   SPTAG(2),0,     1,            1,1,          -1 },
 	// { NULL,               "dolphin",      NULL,           SPTAG(3),   0,            1,           1,           1,          -1 },
 	// { NULL,               "pavucontrol",  NULL,           SPTAG(4),   0,            1,           1,           1,          -1 },
 };
@@ -130,8 +130,9 @@ static const Layout layouts[] = {
 
 /* commands */
 static char dmenumon[2]       = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *dmenucmd[] = { "dmenu_run", "-fn", dmenu_font, "-nb", dmenu_bg, "-nf", dmenu_fg, "-sb", dmenu_sbg, "-sf", dmenu_sfg, "-l", "10", NULL};
-static const char *roficmd[]  = { "rofi", "-show", "drun", NULL };
+static const char *dmenucmd[] = {
+    "dmenu_run", "-fn", dmenu_font, "-nb", dmenu_bg, "-nf", dmenu_fg, "-sb", dmenu_sbg, "-sf", dmenu_sfg, "-l", "10", NULL
+};
 static const char *termcmd[]  = { "kitty", NULL };
 static const char *fmcmd[]    = { "dolphin", NULL };
 static const char *webcmd[]   = { "firefox", NULL };
@@ -144,7 +145,6 @@ static Key keys[] = {
     { MODKEY,                   XK_w,           tabmode,        {-1 } },
     { MODKEY,                   XK_e,           spawn,          { .v = fmcmd } },
     { MODKEY,                   XK_p,           spawn,          { .v = dmenucmd } },
-    { MODKEY,                   XK_r,           spawn,          { .v = roficmd } },
     { MODKEY,                   XK_w,           spawn,          { .v = webcmd } },
 
     { MODKEY|ShiftMask,        XK_Return,       togglescratch,  { .ui = 0 } },           /* spterm1 */
