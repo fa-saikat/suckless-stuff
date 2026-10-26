@@ -1,32 +1,96 @@
-# slock - simple screen locker
+<div align="center">
 
-simple screen locker utility for X. 
+# slock
 
-![slock](https://i.imgur.com/2R315sM.gif)
+A patched [slock](https://tools.suckless.org/slock) 1.4 with a translucent, blurred lock screen and a custom message.
 
-## Requirements
+![slock](../assets/screenshots/slock.png)
 
-In order to build slock you need the Xlib header files.
+</div>
+
+---
+
+## Patches
+
+| Patch | What it does |
+|---|---|
+| Alpha | Translucent lock screen, so the desktop shows through |
+| Blur | Blur comes from picom instead of a screenshot run through ImageMagick, so locking is instant |
+| Message | Text shown in the middle of the lock screen |
+
+---
+
+## Appearance
+
+| State | Colour |
+|---|---|
+| Locked | ![](https://img.shields.io/badge/%20-000000?style=flat-square) `#000000` |
+| Typing | ![](https://img.shields.io/badge/%20-282c34?style=flat-square) `#282c34` |
+| Wrong password | ![](https://img.shields.io/badge/%20-be5046?style=flat-square) `#be5046` |
+| Message text | ![](https://img.shields.io/badge/%20-abb2bf?style=flat-square) `#abb2bf` |
+
+- Opacity: `0.8`
+- Message: "Enter password to unlock"
+- Clearing the input counts as a wrong password (`failonclear = 1`).
+
+---
+
+## Blur
+
+The blur needs a compositor. With picom, enable a blur method in `picom.conf`:
+
+```
+blur-method = "dual_kawase";
+blur-strength = 5;
+```
+
+Without a compositor, slock still works and shows the colours above at full opacity.
+
+---
+
+## Usage
+
+```sh
+slock
+```
+
+Type your password and press Enter to unlock.
+
+To lock after a period of inactivity, pair it with `xss-lock` or `xautolock`:
+
+```sh
+xss-lock -- slock &
+```
+
+---
 
 ## Installation
 
-Edit config.mk to match your local setup (slock is installed into
-the /usr/local namespace by default).
-
-Afterwards enter the following command to build and install slock
-(if necessary as root):
+slock runs setuid root, so it must be installed with `sudo`:
 
 ```sh
-make clean install
+sudo make clean install
 ```
 
-## Running slock
+It drops privileges to `nobody:nogroup` after starting. If your distro has no `nogroup` group (Arch uses `nobody`), change `group` in `config.h`.
 
-Simply invoke the 'slock' command. To get out of it, enter your password.
+### Dependencies
 
-## Blur effect
+**Debian / Ubuntu**
 
-This fork leverages picom's new kawase blur method instead of taking a screenshot, blur it using ImageMagick without hardware acceleration and then set it as the lock screen wallpaper.
-The end result is much higher performance and much lower latency.
+```sh
+sudo apt install build-essential libx11-dev libxext-dev libxrandr-dev
+```
 
-Currently, you will need to enable the experimental backend in picom using `picom --experimental-backends`, you can check out my picom config [here](https://github.com/khuedoan/dotfiles/blob/master/.config/picom/picom.conf#L29).
+**Arch**
+
+```sh
+sudo pacman -S base-devel libx11 libxext libxrandr
+```
+
+---
+
+## Credits
+
+- [khuedoan](https://github.com/khuedoan/slock): picom blur approach.
+- The [suckless](https://tools.suckless.org/slock/patches/) slock patches.

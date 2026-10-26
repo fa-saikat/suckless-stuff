@@ -1,118 +1,133 @@
-# st (Suckless Terminal)
+<div align="center">
 
-This is a custom suckless st build (credits to lukesmith's build for ligatures patch) and I've added some additional patches like newterm , rightclick paste , desktop entry ,sixel, live-reload xresources , dynamic cursor etc!.
+# st
 
-## Patches:
+A patched [st](https://st.suckless.org) 0.8.2 with ligatures, scrollback and live Xresources reload.
 
-- alpha 
-- Ligatures
-- sixel 
-- scrollback
-- Clipboard
-- Alpha(Transparency)
-- Boxdraw
-- w3m
-- patch_column ( doesnt cut text while resizing)
-- font2
-- right click paste
-- st desktop entry
-- newterm
-- anysize
-- anygeometry
-- xresources
-- sync patch ( Better draw timing to reduce flicker/tearing and improve animation smoothness )
-- live reload ( change colors/fonts on the fly )
-  and more...
-  <br>
+![st](../assets/screenshots/st.png)
 
-## How to apply Xresources and live-reload ?
+</div>
 
+---
+
+## Patches
+
+| Patch | What it does |
+|---|---|
+| Ligatures | Font ligatures through HarfBuzz (`hb.c`) |
+| Scrollback | Scroll with the keyboard and mouse wheel |
+| Alpha | Background transparency, adjustable while running |
+| Boxdraw | Pixel-perfect box and line-drawing characters (`boxdraw.c`) |
+| font2 | Fallback font for glyphs missing from the main font |
+| Xresources | Read fonts and colours from Xresources |
+| Live reload | Reload Xresources with `SIGUSR1`, no restart needed |
+| Sync | Synchronised drawing to reduce flicker |
+| newterm | Open a new terminal in the current directory |
+| Right-click paste | Paste the selection with a right click |
+| externalpipe | Open or copy URLs, or copy a command's output, through dmenu |
+| Zoom | Change font size on the fly |
+
+---
+
+## Appearance
+
+| Setting | Value |
+|---|---|
+| Font | Terminus 20px |
+| Fallback font | Iosevka Nerd Font 17px |
+| Colours | Gruvbox dark |
+| Border | 15px |
+| Cursor | Underline |
+| Opacity | 1.0 (adjustable) |
+
+---
+
+## Keybindings
+
+`Alt` is the modifier.
+
+### Clipboard
+
+| Key | Action |
+|---|---|
+| `Ctrl + Shift + c` | Copy |
+| `Ctrl + Shift + v` | Paste |
+| `Shift + Insert` | Paste |
+| Right click | Paste selection |
+
+### Scrolling
+
+| Key | Action |
+|---|---|
+| `Alt + k / j` | Scroll up / down one line |
+| `Alt + Up / Down` | Scroll up / down one line |
+| `Alt + u / d` | Scroll up / down a page |
+| `Shift + Page_Up / Page_Down` | Scroll up / down a page |
+| Mouse wheel | Scroll |
+
+### Font size
+
+| Key | Action |
+|---|---|
+| `Alt + , / .` | Bigger / smaller |
+| `Alt + g` | Reset |
+| `Super + Shift + k / j` | Bigger / smaller |
+| `Super + Shift + u / d` | Much bigger / smaller |
+| `Super + mouse wheel` | Bigger / smaller |
+
+### Transparency
+
+| Key | Action |
+|---|---|
+| `Alt + s` | More transparent |
+| `Alt + a` | Less transparent |
+| `Alt + m` | Opaque |
+
+### Other
+
+| Key | Action |
+|---|---|
+| `Alt + l` | Pick a URL on screen with dmenu and open it |
+| `Alt + y` | Pick a URL on screen with dmenu and copy it |
+| `Alt + o` | Pick a recent command with dmenu and copy its output |
+| `Super + Shift + Return` | New terminal in the same directory |
+
+The URL and output pickers need `dmenu` and `xclip`. `make install` installs the `st-urlhandler` and `st-copyout` helper scripts.
+
+---
+
+## Live reload with Xresources
+
+Fonts, colours, border and opacity can be set in an Xresources file and reloaded without restarting st:
+
+```sh
+xrdb merge ~/.Xresources && pkill -USR1 -x st
 ```
- #make an alias for this command
 
-alias load="kill -USR1 $(pidof st)"
-alias  use="xrdb merge"
+A sample file is in [`xresources`](xresources). Supported keys include `st.font`, `st.color0`–`st.color15`, `st.background`, `st.foreground`, `st.borderpx` and `st.alpha`.
 
-command : use Xresourcesfile && load
+---
 
-```
-## Xresources live-reload demo
+## Dependencies
 
-<img src="https://github.com/siduck76/dotfiles/blob/master/rice%20flex/live-reloadXresources.gif"> <br><br>
+**Debian / Ubuntu**
 
-<b>DON'T SKIP THE README, if you want to have a similar setup / know default keybinds.<br><br></b>
-
-## Dependencies : <br>
-
-
+```sh
+sudo apt install build-essential pkg-config libx11-dev libxft-dev libharfbuzz-dev
 ```
 
-#void (most of these are already installed on arch distros)
-xbps-install libXft-devel libX11-devel harfbuzz-devel libXext-devel libXrender-devel libXinerama-devel
- 
+**Arch**
 
-#Debian (and ubuntu probably)
-apt install build-essential libxft-dev libharfbuzz-dev 
-
+```sh
+sudo pacman -S base-devel libx11 libxft harfbuzz
 ```
 
-## Install <br>
+Runtime: `dmenu` and `xclip` for the URL and output pickers.
 
-`cd st (this repo) `<br>
-`sudo make install `<br>
+---
 
-## other ST builds <br>
+## Credits
 
-1. Default ST (main branch)
-2. Sixel St (sixel branch , with sixel graphics support)
-3. St with vim-browse (vim-browse branch , navigate within like vim)
-
-- Use a different st build ( clone its branch)
-
-`example: git clone https://github.com/siduck76/st --branch sixel`
-
-## Ram comparison with other terminals and speed test
-<img src="https://raw.githubusercontent.com/siduck76/dotfiles/master/rice%20flex/terminal_ramUsage.jpg"> <br><br>
-<img src="https://raw.githubusercontent.com/siduck76/dotfiles/master/rice%20flex/speedTest.png"> <br><br>
-<img src="https://raw.githubusercontent.com/siduck76/dotfiles/master/rice%20flex/speedTest1.png"> <br><br>
-
-
-## Default Keybindings<br>
-
-<pre>
-ctrl + shift + c        Copy  <br>
-ctrl + shift + v        Paste <br>
-alt  + comma            Zoom in <br>
-alt  + .                Zoom out <br>
-alt  + g                Reset Zoom<br>
-alt  + s                Increase Transparency<br>
-alt  + a                Decrease Transparency<br>
-alt  + m                Reset Transparency<br>
-copy anything and right click on the terminal ( will paste the copied thing ) 
-mod + shift + enter    open a new terminal with same cwd ( current working directory )
-alt + k                 scroll down 
-alt + j                 scroll up
-</pre>
-
-you can change all of these in config.h
-<br>
-
-## Themes/Fonts used
-
-ls-icons: https://github.com/Yash-Handa/logo-ls <br>
-Xresources: onedark ( just xrdb merge xresourcesfile , do this everytime you make any change to xresources file ) from this repo itself.<br>
-Font: <a href="https://github.com/siduck76/matfonts"> JetbrainsMono Nerd Font + material design icon fonts </a>
-
-a lil<a href="https://share.vidyard.com/watch/sdFeoxaRr124U893WVEcxN?"> video </a>demo to show zoom/alpha changing via keybinds
-
-## Screenshots:
-
-<img src="https://raw.githubusercontent.com/siduck76/personal-backup/master/misc/delete_this/bruh.png"> <br><br>
-<img src="https://raw.githubusercontent.com/siduck76/personal-backup/master/misc/delete_this/ithree0-36-43.png"> <br><br>
-<img src="https://raw.githubusercontent.com/siduck76/personal-backup/master/misc/delete_this/two7-00.png"> <br><br>
-<img src="https://raw.githubusercontent.com/siduck76/personal-backup/master/misc/delete_this/u.png"> <br><hr>
-
-# Credits
-
-- [live-reload](https://github.com/nimaipatel/st) 
-- [patch_column](https://github.com/nimaipatel/st/blob/master/patches/7672445bab01cb4e861651dc540566ac22e25812.diff)
+- [siduck76](https://github.com/siduck76/st): the build this one started from.
+- [Luke Smith](https://github.com/LukeSmithxyz/st): ligatures patch, `st-urlhandler` and `st-copyout`.
+- [nimaipatel](https://github.com/nimaipatel/st): live reload.
