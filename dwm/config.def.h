@@ -136,7 +136,6 @@ static const char *dmenucmd[] = {
 };
 static const char *termcmd[]  = { "kitty", NULL };
 static const char *fmcmd[]    = { "dolphin", NULL };
-static const char *webcmd[]   = { "firefox", NULL };
 
 #include "movestack.c"
 #include <X11/XF86keysym.h>
@@ -147,7 +146,6 @@ static Key keys[] = {
     { MODKEY,                   XK_w,           tabmode,        {-1 } },
     { MODKEY,                   XK_e,           spawn,          { .v = fmcmd } },
     { MODKEY,                   XK_p,           spawn,          { .v = dmenucmd } },
-    { MODKEY,                   XK_w,           spawn,          { .v = webcmd } },
 
     { MODKEY|ShiftMask,        XK_Return,       togglescratch,  { .ui = 0 } },           /* spterm1 */
     { Mod1Mask,                XK_Return,       togglescratch,  { .ui = 1 } },           /* spterm2 */

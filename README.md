@@ -152,7 +152,7 @@ Restart dwm in place with `Super + Shift + r`; open windows are kept.
 |---|---|
 | `Super + Return` | Terminal (kitty) |
 | `Super + p` | dmenu |
-| `Super + w` | Firefox (also toggles the tab bar) |
+| `Super + w` | Toggle tab bar |
 | `Super + e` | File manager (Dolphin) |
 | `Super + q` | Close window |
 | `Super + j / k` | Focus next / previous window |

@@ -150,7 +150,6 @@ Floating windows you can show and hide from any tag.
 |---|---|
 | `Super + Return` | Terminal (kitty) |
 | `Super + p` | dmenu |
-| `Super + w` | Firefox, and toggles the tab bar (see [quirks](#known-quirks)) |
 | `Super + e` | Dolphin |
 
 ### Windows
@@ -175,6 +174,7 @@ Floating windows you can show and hide from any tag.
 | `Super + t / f / g / m / c` | Tile / float / grid / monocle / centred master |
 | `Super + Shift + t` | Bottom stack |
 | `Super + Ctrl + b` | Toggle bar |
+| `Super + w` | Toggle tab bar |
 
 ### Gaps
 
@@ -241,6 +241,5 @@ A script that is missing or not executable is skipped.
 
 ## Known quirks
 
-- **`Super + w` does two things.** It is bound to both `tabmode` and Firefox, and dwm runs every matching binding, so it opens Firefox and toggles the tab bar together.
 - **Trimmed layouts.** Only tile, bstack, centredmaster and grid are compiled from `vanitygaps.c`. The others (deck, dwindle, spiral, nrowgrid and more) are commented out there, along with unused keybinding stubs in `config.def.h`.
 - **Volume keys.** Bindings for cycling layouts and tags with the volume keys are commented out.
