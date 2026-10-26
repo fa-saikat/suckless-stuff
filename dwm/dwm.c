@@ -355,7 +355,8 @@ static pid_t winpid(Window w);
 static const char autostartblocksh[] = "autostart_blocking.sh";
 static const char autostartsh[] = "autostart.sh";
 static const char dwmdir[] = "dwm";
-static const char localshare[] = ".local/share/suckless-stuff";
+static const char sucklessdir[] = "suckless-stuff";
+static const char localshare[] = ".local/share";
 
 // Systray
 static Systray *systray =  NULL;
@@ -2115,6 +2116,7 @@ runautostart(void)
 {
 	char *pathpfx;
 	char *path;
+	char *sucklesshome;
 	char *xdgdatahome;
 	char *home;
 	struct stat sb;
@@ -2123,24 +2125,36 @@ runautostart(void)
 		/* this is almost impossible */
 		return;
 
-	/* if $XDG_DATA_HOME is set and not empty, use $XDG_DATA_HOME/dwm,
-	 * otherwise use ~/.local/share/dwm as autostart script directory
+	/* if $SUCKLESS_HOME is set and not empty, use $SUCKLESS_HOME/dwm,
+	 * else if $XDG_DATA_HOME is set and not empty, use
+	 * $XDG_DATA_HOME/suckless-stuff/dwm, otherwise use
+	 * ~/.local/share/suckless-stuff/dwm as autostart script directory
 	 */
+	sucklesshome = getenv("SUCKLESS_HOME");
 	xdgdatahome = getenv("XDG_DATA_HOME");
-	if (xdgdatahome != NULL && *xdgdatahome != '\0') {
+	if (sucklesshome != NULL && *sucklesshome != '\0') {
 		/* space for path segments, separators and nul */
-		pathpfx = ecalloc(1, strlen(xdgdatahome) + strlen(dwmdir) + 2);
+		pathpfx = ecalloc(1, strlen(sucklesshome) + strlen(dwmdir) + 2);
 
-		if (sprintf(pathpfx, "%s/%s", xdgdatahome, dwmdir) <= 0) {
+		if (sprintf(pathpfx, "%s/%s", sucklesshome, dwmdir) <= 0) {
+			free(pathpfx);
+			return;
+		}
+	} else if (xdgdatahome != NULL && *xdgdatahome != '\0') {
+		/* space for path segments, separators and nul */
+		pathpfx = ecalloc(1, strlen(xdgdatahome) + strlen(sucklessdir)
+		                     + strlen(dwmdir) + 3);
+
+		if (sprintf(pathpfx, "%s/%s/%s", xdgdatahome, sucklessdir, dwmdir) <= 0) {
 			free(pathpfx);
 			return;
 		}
 	} else {
 		/* space for path segments, separators and nul */
 		pathpfx = ecalloc(1, strlen(home) + strlen(localshare)
-		                     + strlen(dwmdir) + 3);
+		                     + strlen(sucklessdir) + strlen(dwmdir) + 4);
 
-		if (sprintf(pathpfx, "%s/%s/%s", home, localshare, dwmdir) < 0) {
+		if (sprintf(pathpfx, "%s/%s/%s/%s", home, localshare, sucklessdir, dwmdir) < 0) {
 			free(pathpfx);
 			return;
 		}

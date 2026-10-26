@@ -48,7 +48,7 @@ A reference for my **dwm** (dynamic window manager) build. Modifier key is **Mod
 | `systraypinningfailfirst` | `1` | Falls back to first monitor if pinning fails |
 
 ### Autostart
-- Runs `~/.local/share/suckless-stuff/dwm/autostart.sh` on startup
+- Runs `$SUCKLESS_HOME/dwm/autostart.sh` on startup (falls back to `$XDG_DATA_HOME/suckless-stuff/dwm`, then `~/.local/share/suckless-stuff/dwm`, then `~/.dwm`)
 
 ---
 
