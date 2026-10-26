@@ -25,27 +25,24 @@ static const int showtab			= showtab_auto;        /* Default tab bar show mode *
 static const int toptab				= True;               /* False means bottom tab bar */
 
 static const int showsystray             = 1;     /* 0 means no systray */
-static const unsigned int systraypinning = 0;   /* 0: sloppy systray follows selected monitor, >0: pin systray to monitor X */
+static const unsigned int systraypinning = 1;   /* 0: sloppy systray follows selected monitor, >0: pin systray to monitor X */
 static const unsigned int systrayspacing = 2;   /* systray spacing */
 static const int systraypinningfailfirst = 1;   /* 1: if pinning fails, display systray on the first monitor, False: display systray on the last monitor*/
 
 static const char *fonts[] = {
-    "Terminus               : style=Bold: size=14",
-    "JetbrainsMono Nerd Font: style=Bold: size=12",
-    "NotoSansMono Nerd Font : style=Bold: size=12",
+    "Terminus               : style=Regular: size=12",
+    "JetbrainsMono Nerd Font: style=Regular: size=10",
+    "NotoSansMono Nerd Font : style=Regular: size=10",
 };
 
 static const char dmenu_font[]= {
-    "JetbrainsMono Nerd Font: style=Bold: size=12",
+    "Terminus               : style=Regular: size=10",
+    // "JetbrainsMono Nerd Font: style=Bold: size=10",
 };
 
 // Colorscheme
-#include "scheme/serenade.h"
+#include "scheme/monochrome.h"
 
-static const char *const autostart[] = {
-    "/home/saikat/.local/share/suckless-stuff/dwm/autostart.sh",  NULL,
-    NULL,
-};
 
 typedef struct {
 	const char *name;
@@ -54,21 +51,23 @@ typedef struct {
 
 const char *spcmd1[] = { "kitty", "--class", "spterm1", NULL };
 const char *spcmd2[] = { "kitty", "--class", "spterm2", NULL };
-const char *spcmd3[] = { "pavucontrol", NULL  };
+const char *spcmd3[] = { "kitty", "--class", "spterm3", "--name", "Htop", "--title", "Htop", "--override", "font_size=13","htop", NULL };
+const char *spcmd4[] = { "pavucontrol", NULL  };
 
 static Sp scratchpads[] = {
 	/* name                     cmd  */
-	{ "spterm1",    spcmd1 },
-	{ "spterm2",    spcmd2 },
-	{ "pavucontrol",spcmd3 },
+	{ "spterm1",            spcmd1 },
+	{ "spterm2",            spcmd2 },
+	{ "spterm3",            spcmd3 },
+	{ "pavucontrol",     	spcmd4 },
 };
 
 /* tagging */
-// static const          char *tags[]          = { "","","󰈹","","󰣀","","","󰣇" };
-// static const          char *tags[]          = { "󰇊","󰇋","󰇌","󰇍","󰇎","󰇏","󰎶","󰎹" };
-// static const          char *tags[]          = { "󰎤","󰎧","󰎪","󰎭","󰎱","󰎳","󰎶","󰎹", "󰎼" };
-static const          char *tags[]          = { "1","2","3","4","5","6","7","8","9" };
-static int defaultlayouts[1 + LENGTH(tags)] = {  0,  0,  0,  5,  4,  0,  0,  4,  0 };  /* first element is for all-tag view */
+// static const  char *tags[] = { "","","󰈹","","󰣀","","","󰣇" };
+// static const  char *tags[] = { "󰇊","󰇋","󰇌","󰇍","󰇎","󰇏","󰎶","󰎹" };
+static const     char *tags[] = { "󰎤","󰎧","󰎪","󰎭","󰎱","󰎳","󰎶","󰎹", "󰎼" };
+// static const  char *tags[] = { "1","2","3","4","5","6","7","8","9" };
+static int defaultlayouts[1 + LENGTH(tags)] = {  0,  0,  0,  5,  4,  0, };  /* first element is for all-tag view */
 
 
 static const          int ulineall     = 0;	/* 1 to show underline on all tags, 0 for just the active ones */
@@ -82,17 +81,19 @@ static const Rule rules[] = {
 	 *	WM_NAME(STRING) = title
 	 */
 	/* class,             instance,       title,          tags mask,  switchtotag,  isfloating,  isterminal,  noswallow,  monitor */
-	{ NULL,               NULL,           "Event Tester", 0,          0,            0,            0,           1,          -1 },   /* xev */
-	{ "firefox",          NULL,           NULL,           1 << 2,     0,            0,            0,           0,          -1 },
-	{ "qBittorrent",      NULL,           NULL,           1 << 8,     0,            0,            0,           0,          -1 },
-	{ "st-256color",      NULL,           NULL,           0,          0,            0,            1,           0,          -1 },
-	{ "zoom",             "zoom",         NULL,           1 << 4,     1,            1,            0,           0,          -1 },
-	{ "zoom",             NULL,           "Settings",     1 << 4,     1,            1,            0,           0,          -1 },
-    { NULL,              "spterm1",         NULL,   SPTAG(0),0,     1,            1,1,          -1 },
-    { NULL,              "spterm2",         NULL,   SPTAG(1),0,     1,            1,1,          -1 },
-	{ "pavucontrol",    "pavucontrol",      NULL,   SPTAG(2),0,     1,            1,1,          -1 },
-	// { NULL,               "dolphin",      NULL,           SPTAG(3),   0,            1,           1,           1,          -1 },
-	// { NULL,               "pavucontrol",  NULL,           SPTAG(4),   0,            1,           1,           1,          -1 },
+	{ NULL,               NULL,           "Event Tester", 0,          0,            0,           0,           1,          -1 },   /* xev */
+	{ "ai.opencode.desktop", NULL,        NULL,           1 << 2,     0,            0,           0,           0,          -1 },
+	{ "dolphin", 	      NULL,           NULL,           1 << 5,     0,            0,           0,           0,          -1 },
+	{ "firefox",          NULL,           NULL,           1 << 2,     0,            0,           0,           0,          -1 },
+	{ "qBittorrent",      NULL,           NULL,           1 << 8,     0,            0,           0,           0,          -1 },
+	{ "st-256color",      NULL,           NULL,           0,          0,            0,           1,           0,          -1 },
+	{ "kitty",            NULL,           NULL,           0,          0,            0,           1,           0,          -1 },
+	{ "zoom",             "zoom",         NULL,           1 << 4,     1,            1,           0,           0,          -1 },
+	{ "zoom",             NULL,           "Settings",     1 << 4,     1,            1,           0,           0,          -1 },
+    	{ NULL,              "spterm1",       NULL,	      SPTAG(0),	  0,	     	1,           1,		  1,          -1 },
+    	{ NULL,              "spterm2",       NULL,	      SPTAG(1),	  0,	     	1,           1,		  1,          -1 },
+    	{ "spterm3",         "Htop",          NULL,	      SPTAG(2),	  0,	     	1,           1,		  1,          -1 },
+	{ "pavucontrol",     "pavucontrol",   NULL,	      SPTAG(3),	  0,	     	1,           1,		  1,          -1 },
 };
 
 /* layout(s) */
@@ -107,13 +108,13 @@ static const int lockfullscreen = 1;    /* 1 will force focus on the fullscreen 
 
 static const Layout layouts[] = {
 	/* symbol     arrange function */
-	{ 	"󰇙 󰬛 󰇙",    tile 					  },  /* first entry is default */
-	{ 	"󰇙 󰬍 󰇙",    NULL 					  },  /* no layout function means floating behavior */
-	{ 	"󰇙 󰬉 󰇙",    bstack 					},
-	{   "󰇙 󰬊 󰇙",    centeredmaster 	},
-	{   "󰇙 󰬎 󰇙",    grid 					  },
-	{ 	"󰇙 [M] 󰇙",  monocle 				},
-	{ 	NULL,     NULL 					  }
+	{ 	"󰇙 󰬛 󰇙",    tile },  /* first entry is default */
+	{ 	"󰇙 󰬍 󰇙",    NULL },  /* no layout function means floating behavior */
+	{ 	"󰇙 󰬉 󰇙",    bstack },
+	{   "󰇙 󰬊 󰇙",    centeredmaster },
+	{   "󰇙 󰬎 󰇙",    grid },
+	{ 	"󰇙 [M] 󰇙",  monocle },
+	{ 	NULL, NULL 	}
 };
 
 
@@ -130,7 +131,7 @@ static const Layout layouts[] = {
 
 /* commands */
 static char dmenumon[2]       = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *dmenucmd[] = {
+static const char *dmenucmd[] = { 
     "dmenu_run", "-fn", dmenu_font, "-nb", dmenu_bg, "-nf", dmenu_fg, "-sb", dmenu_sbg, "-sf", dmenu_sfg, "-l", "10", NULL
 };
 static const char *termcmd[]  = { "kitty", NULL };
@@ -138,6 +139,7 @@ static const char *fmcmd[]    = { "dolphin", NULL };
 static const char *webcmd[]   = { "firefox", NULL };
 
 #include "movestack.c"
+#include <X11/XF86keysym.h>
 
 static Key keys[] = {
     { MODKEY,                   XK_Return,      spawn,          { .v = termcmd } },
@@ -149,7 +151,8 @@ static Key keys[] = {
 
     { MODKEY|ShiftMask,        XK_Return,       togglescratch,  { .ui = 0 } },           /* spterm1 */
     { Mod1Mask,                XK_Return,       togglescratch,  { .ui = 1 } },           /* spterm2 */
-    { MODKEY,                  XK_v,            togglescratch,  { .ui = 2 } },           /* spterm3 */
+    { Mod1Mask|ShiftMask,      XK_Return,       togglescratch,  { .ui = 2 } },           /* spterm3 */
+    { MODKEY,                  XK_v,            togglescratch,  { .ui = 3 } },           /* spterm4 */
 
     { MODKEY,                  XK_h,            setmfact,       { .f = -0.05} },
     { MODKEY,                  XK_l,            setmfact,       { .f = +0.05} },
@@ -177,6 +180,9 @@ static Key keys[] = {
     { MODKEY,                  XK_Page_Up,      cyclelayout,    { .i = -1 } },
     { MODKEY,                  XK_Page_Down,    cyclelayout,    { .i = +1 } },
 
+    // { MODKEY,                  XF86XK_AudioLowerVolume,    cyclelayout,    { .i = -1 } },
+    // { MODKEY,                  XF86XK_AudioRaiseVolume,    cyclelayout,    { .i = +1 } },
+
     { MODKEY,                  XK_bracketleft,  focusmon,       { .i = -1 } },
     { MODKEY,                  XK_bracketright, focusmon,       { .i = +1 } },
     { MODKEY|ShiftMask,        XK_bracketleft,  tagmon,         { .i = -1 } },
@@ -184,6 +190,9 @@ static Key keys[] = {
 
     { MODKEY,                  XK_comma,        shiftview,      { .i = -1 } },
     { MODKEY,                  XK_period,       shiftview,      { .i = +1 } },
+
+    // { MODKEY,                  XF86XK_AudioLowerVolume,       shiftview,      { .i = -1 } },
+    // { MODKEY,                  XF86XK_AudioRaiseVolume,       shiftview,      { .i = +1 } },
 
     { MODKEY|ShiftMask,        XK_r,            quit,           { 1 } },
     { MODKEY|ShiftMask,        XK_q,            quit,           { 0 } },

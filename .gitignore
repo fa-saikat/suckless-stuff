@@ -1,0 +1,8 @@
+*.o
+dwm/dwm
+dmenu/dmenu
+dmenu/stest
+st/st
+slock/slock
+slstatus/slstatus
+config.h
